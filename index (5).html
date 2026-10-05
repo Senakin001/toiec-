@@ -1,0 +1,2190 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TOEIC 金フレ 1134 完全マスター Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Noto+Sans+JP:wght@400;500;700;800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '"Noto Sans JP"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    input, textarea {
+      user-select: auto;
+    }
+    .card-preserve {
+      transform-style: preserve-3d;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-flipped {
+      transform: rotateY(180deg);
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(245, 158, 11, 0.3);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(245, 158, 11, 0.5);
+    }
+  </style>
+<script src="/_aistudio-iframe.js?v=2c34bde1"></script></head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col items-center p-2 sm:p-4 lg:p-6 antialiased selection:bg-amber-500 selection:text-slate-950">
+
+  <div class="w-full max-w-4xl bg-slate-900/90 shadow-2xl rounded-2xl sm:rounded-3xl border border-slate-800 overflow-hidden flex flex-col min-h-[94vh]">
+    
+    <!-- Top Header -->
+    <header class="bg-slate-900 border-b border-slate-800 px-3 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-2.5">
+      <div class="flex items-center space-x-2.5">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/25 text-slate-950 font-black text-xl border border-amber-300/40">
+          金
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <h1 class="font-extrabold text-base sm:text-lg tracking-tight text-white leading-none">TOEIC 金フレ 1134</h1>
+            <span class="bg-gradient-to-r from-amber-500/30 to-amber-400/20 text-amber-300 text-[10px] font-black px-1.5 py-0.5 rounded border border-amber-500/40 tracking-wider">PRO</span>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-0.5 font-medium">全1,134項目 完全収録マスター</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons & Badges -->
+      <div class="flex items-center gap-2">
+        <!-- Streak -->
+        <div class="hidden xs:flex items-center gap-1 px-2.5 py-1 rounded-xl bg-amber-950/60 border border-amber-500/30 text-amber-400 text-xs font-bold shadow-inner">
+          <span>🔥</span> <span id="streakDaysText">1日連続</span>
+        </div>
+        <!-- Total Progress -->
+        <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-800 border border-slate-700 text-xs font-bold text-slate-200">
+          <span class="text-slate-400 text-[11px]">総進捗</span>
+          <span id="globalProgressPct" class="text-amber-400 font-extrabold">0%</span>
+        </div>
+        <!-- Sound toggle -->
+        <button onclick="toggleSound()" id="soundToggleBtn" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-400 transition-all text-xs" title="効果音のON/OFF">
+          🔊
+        </button>
+        <!-- Backup Modal -->
+        <button onclick="openBackupModal()" class="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-95 text-slate-950 font-black text-xs shadow-md shadow-amber-500/20 transition-all cursor-pointer" title="学習データの保存・復元・引き継ぎ">
+          <span>💾</span>
+          <span>保存/復元</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Navigation & Filters Section -->
+    <div class="bg-slate-900/60 border-b border-slate-800 p-3 sm:p-4 space-y-2.5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+        <!-- Level Dropdown -->
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">学習レベル選択</label>
+          <div class="relative">
+            <select id="levelSelect" onchange="handleLevelChange()" class="w-full appearance-none bg-slate-800 border border-slate-700 hover:border-slate-600 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-white font-bold text-xs sm:text-sm rounded-xl py-2.5 pl-3.5 pr-8 outline-none transition-all shadow-sm cursor-pointer">
+              <option value="600">🎯 600点レベル (全400語)</option>
+              <option value="730">🚀 730点レベル (全300語)</option>
+              <option value="860">🔥 860点レベル (全200語)</option>
+              <option value="990">👑 990点レベル (全100語)</option>
+              <option value="extra">✨ 重要付録 (全134項目)</option>
+              <option value="weakness">⚠️ 【全レベル】苦手特訓 (ミスありのみ)</option>
+              <option value="bookmarks">⭐ 【全レベル】ブックマーク単語</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Segment / Part Dropdown (50 words each) -->
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">50語セクション / サブパート</label>
+          <div class="relative">
+            <select id="partSelect" onchange="handlePartChange()" class="w-full appearance-none bg-slate-800 border border-slate-700 hover:border-slate-600 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-white font-bold text-xs sm:text-sm rounded-xl py-2.5 pl-3.5 pr-8 outline-none transition-all shadow-sm cursor-pointer">
+              <!-- Populated dynamically -->
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mode Tabs (6 Modes) -->
+      <nav class="flex p-1 bg-slate-950/70 rounded-xl gap-1 text-xs font-bold mt-2 overflow-x-auto border border-slate-800 scrollbar-none">
+        <button onclick="switchTab('card')" id="tabBtnCard" class="flex-1 min-w-[72px] py-2 rounded-lg text-center transition-all bg-amber-500 text-slate-950 font-black shadow-md flex items-center justify-center gap-1">
+          <span>📇</span> <span>カード暗記</span>
+        </button>
+        <button onclick="switchTab('quiz')" id="tabBtnQuiz" class="flex-1 min-w-[72px] py-2 rounded-lg text-center transition-all text-slate-400 hover:text-white flex items-center justify-center gap-1">
+          <span>📝</span> <span>4択テスト</span>
+        </button>
+        <button onclick="switchTab('spell')" id="tabBtnSpell" class="flex-1 min-w-[72px] py-2 rounded-lg text-center transition-all text-slate-400 hover:text-white flex items-center justify-center gap-1">
+          <span>✍️</span> <span>スペル特訓</span>
+        </button>
+        <button onclick="switchTab('speed')" id="tabBtnSpeed" class="flex-1 min-w-[72px] py-2 rounded-lg text-center transition-all text-slate-400 hover:text-white flex items-center justify-center gap-1">
+          <span>⚡</span> <span>高速アタック</span>
+        </button>
+        <button onclick="switchTab('list')" id="tabBtnList" class="flex-1 min-w-[72px] py-2 rounded-lg text-center transition-all text-slate-400 hover:text-white flex items-center justify-center gap-1">
+          <span>📋</span> <span>単語帳一覧</span>
+        </button>
+        <button onclick="switchTab('analytics')" id="tabBtnAnalytics" class="flex-1 min-w-[72px] py-2 rounded-lg text-center transition-all text-slate-400 hover:text-white flex items-center justify-center gap-1">
+          <span>📊</span> <span>学習分析</span>
+        </button>
+      </nav>
+
+      <!-- Filter Queue & Progress Bar -->
+      <div id="subFilterRow" class="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs">
+        <div class="flex items-center gap-2">
+          <div class="flex bg-slate-950/80 p-0.5 rounded-xl border border-slate-800 text-[11px] font-bold">
+            <button onclick="setQueueFilter('unlearned')" id="btnFilterUnlearned" class="px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 font-black shadow-xs transition-all cursor-pointer">
+              未習得 (<span id="unlearnedQueueCount">0</span>)
+            </button>
+            <button onclick="setQueueFilter('mistakes')" id="btnFilterMistakes" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-rose-400 transition-all cursor-pointer">
+              ⚠️ 苦手 (<span id="mistakeQueueCount">0</span>)
+            </button>
+            <button onclick="setQueueFilter('bookmarked')" id="btnFilterBookmarked" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-amber-300 transition-all cursor-pointer">
+              ⭐ (<span id="bookmarkQueueCount">0</span>)
+            </button>
+            <button onclick="setQueueFilter('all')" id="btnFilterAll" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition-all cursor-pointer">
+              すべて (<span id="totalQueueCount">0</span>)
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 ml-auto">
+          <span id="sectionProgressText" class="text-slate-300 font-bold text-[11px]">進捗: 0 / 50 (0%)</span>
+          <button onclick="confirmResetSectionModal()" class="text-[11px] text-slate-400 hover:text-rose-400 bg-slate-800 hover:bg-rose-950/40 border border-slate-700 hover:border-rose-800/50 px-2 py-1 rounded-lg transition-all flex items-center gap-1 cursor-pointer" title="このセクションの除外とミスをリセット">
+            <span>🔄 リセット</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="subProgressBarRow" class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700/50">
+        <div id="sectionProgressBar" class="bg-gradient-to-r from-amber-500 via-amber-400 to-emerald-400 h-full w-0 transition-all duration-300"></div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT VIEWS -->
+    <main class="flex-1 p-3 sm:p-5 flex flex-col">
+
+      <!-- ================= 1. FLASHCARD VIEW ================= -->
+      <section id="viewCard" class="flex-1 flex flex-col justify-between max-w-xl mx-auto w-full">
+        <!-- Sub top controls -->
+        <div class="flex items-center justify-between text-xs text-slate-400 mb-2 font-semibold px-1">
+          <div class="flex items-center gap-2">
+            <span id="cardIndexBadge" class="font-mono text-amber-400 font-bold">#1</span>
+            <span id="cardCounterText">単語 1 / 50</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="toggleCardFrontMode()" id="cardFrontModeBtn" class="text-[11px] px-2 py-0.5 rounded-md bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 transition-all cursor-pointer">
+              英 ➔ 日
+            </button>
+            <button onclick="toggleAutoPlay()" id="btnAutoPlay" class="flex items-center gap-1 text-[11px] px-2.5 py-0.5 rounded-md font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition-all cursor-pointer">
+              <span>▶ 自動再生</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3D Flip Card Container -->
+        <div class="relative w-full aspect-[16/10] sm:aspect-[16/9] min-h-[220px] max-h-[310px] perspective cursor-pointer" onclick="toggleCardFlip()">
+          <div id="cardInner" class="card-preserve relative w-full h-full rounded-3xl shadow-2xl border border-slate-700/80">
+            
+            <!-- Card Front -->
+            <div class="backface-hidden absolute inset-0 w-full h-full bg-gradient-to-b from-slate-800/90 to-slate-800/60 backdrop-blur-xl border border-slate-700/80 rounded-3xl p-5 sm:p-6 flex flex-col justify-between items-center text-center shadow-lg">
+              <div class="w-full flex items-center justify-between text-xs">
+                <span id="cardCategoryBadge" class="bg-amber-500/15 border border-amber-500/30 text-amber-400 font-extrabold px-2 py-0.5 rounded-md text-[10px]">600点</span>
+                <div class="flex items-center gap-2">
+                  <span id="cardMistakeBadge" class="hidden bg-rose-500/20 border border-rose-500/30 text-rose-300 font-bold px-2 py-0.5 rounded-md text-[10px]">
+                    ⚠️ ミス: <b id="cardMistakeCount">0</b>回
+                  </span>
+                  <button type="button" onclick="event.stopPropagation(); toggleCurrentBookmark();" id="cardBookmarkBtn" class="p-1 rounded-lg hover:bg-slate-700/60 text-slate-400 hover:text-amber-400 transition-colors" title="ブックマーク">
+                    ⭐
+                  </button>
+                </div>
+              </div>
+
+              <!-- Word Text -->
+              <div class="my-auto px-2">
+                <h2 id="cardWordText" class="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+                  loading...
+                </h2>
+                <p id="cardFrontHintText" class="text-xs text-slate-400 mt-2.5 font-medium">👆 タップで日本語訳を表示</p>
+              </div>
+
+              <div class="w-full flex justify-between items-center text-slate-400 text-xs">
+                <span id="cardIndexLabel" class="font-mono text-[11px] text-slate-500">金フレ見出し</span>
+                <button type="button" onclick="event.stopPropagation(); playCurrentAudio();" class="p-2 rounded-xl bg-slate-700/60 hover:bg-amber-500 hover:text-slate-950 text-slate-200 transition-all flex items-center gap-1 active:scale-95 cursor-pointer">
+                  <span>🔊 発音</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card Back -->
+            <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full bg-gradient-to-br from-slate-900 via-indigo-950/80 to-slate-900 border-2 border-amber-500/40 text-white rounded-3xl p-5 sm:p-6 flex flex-col justify-between items-center text-center shadow-xl shadow-amber-500/5">
+              <div class="w-full flex items-center justify-between text-xs">
+                <span id="cardCategoryBadgeBack" class="bg-amber-500/15 border border-amber-500/30 text-amber-300 font-bold px-2 py-0.5 rounded-md text-[10px]">600点</span>
+                <span id="cardBackHeaderLabel" class="text-amber-400 font-bold text-[11px]">✨ 日本語訳・語義</span>
+              </div>
+
+              <div class="my-auto px-3">
+                <div id="cardWordSubText" class="text-sm font-bold text-amber-400 font-mono mb-1.5 tracking-wide"></div>
+                <p id="cardMeaningText" class="text-xl sm:text-3xl font-extrabold leading-relaxed text-white">
+                  意味
+                </p>
+              </div>
+
+              <div class="w-full flex justify-between items-center text-slate-400 text-xs">
+                <span class="text-slate-500 text-[11px]">金フレ公式見出し準拠</span>
+                <button type="button" onclick="event.stopPropagation(); playCurrentAudio();" class="p-2 rounded-xl bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-200 transition-all flex items-center gap-1 active:scale-95 cursor-pointer">
+                  <span>🔊 発音</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Action Review Buttons: わからない vs 覚えた！ -->
+        <div class="grid grid-cols-2 gap-3 mt-4">
+          <button onclick="handleMarkCard(false)" class="flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-rose-950/40 hover:bg-rose-900/60 active:scale-[0.98] border border-rose-500/40 text-rose-300 font-extrabold text-sm sm:text-base transition-all shadow-md cursor-pointer">
+            <span class="text-lg">❌</span>
+            <span>わからない (+1ミス)</span>
+          </button>
+          <button onclick="handleMarkCard(true)" class="flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 active:scale-[0.98] text-white font-extrabold text-sm sm:text-base transition-all shadow-lg shadow-emerald-600/25 cursor-pointer">
+            <span class="text-lg">✅</span>
+            <span>覚えた！ (除外)</span>
+          </button>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex items-center justify-between gap-2 mt-3 pt-2.5 border-t border-slate-800">
+          <button onclick="navigateCard(-1)" class="flex-1 py-2 px-3 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 font-bold text-xs sm:text-sm text-slate-300 flex items-center justify-center gap-1 active:scale-95 transition-all cursor-pointer">
+            <span>◀ 前へ</span>
+          </button>
+          <button onclick="playCurrentAudio()" class="py-2 px-4 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 font-bold text-xs sm:text-sm text-amber-300 flex items-center justify-center gap-1 active:scale-95 transition-all cursor-pointer">
+            <span>🔊 発音</span>
+          </button>
+          <button onclick="shuffleCurrentQueue()" class="py-2 px-3 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 font-bold text-xs sm:text-sm text-slate-300 flex items-center justify-center gap-1 active:scale-95 transition-all cursor-pointer" title="順番をシャッフル">
+            <span>🔀 シャッフル</span>
+          </button>
+          <button onclick="navigateCard(1)" class="flex-1 py-2 px-3 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 font-bold text-xs sm:text-sm text-slate-300 flex items-center justify-center gap-1 active:scale-95 transition-all cursor-pointer">
+            <span>次へ ▶</span>
+          </button>
+        </div>
+
+        <!-- Shortcuts Hint -->
+        <div class="text-center text-[10px] text-slate-500 mt-2 font-mono hidden sm:block">
+          [Space] 反転 ｜ [1] わからない ｜ [2] 発音再生 ｜ [3] 覚えた ｜ [←/→] 移動
+        </div>
+
+        <!-- Completion Overlay -->
+        <div id="cardCompletedOverlay" class="hidden absolute inset-0 bg-slate-950/95 backdrop-blur-md z-20 rounded-3xl flex flex-col items-center justify-center p-6 text-center">
+          <div class="w-20 h-20 bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 rounded-3xl flex items-center justify-center text-4xl shadow-xl shadow-amber-500/25 mb-4 animate-bounce">
+            🎉
+          </div>
+          <h3 class="text-2xl font-black text-white mb-1">セクション習得完了！</h3>
+          <p class="text-sm text-slate-400 max-w-xs mb-6">この区間のすべての単語をマスターしました！</p>
+          <div class="flex flex-col sm:flex-row gap-3 w-full max-w-sm">
+            <button onclick="resetSectionStatus()" class="flex-1 py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm border border-slate-700 transition-all cursor-pointer">
+              🔄 もう一度復習する
+            </button>
+            <button onclick="advanceToNextSection()" class="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-sm shadow-lg shadow-amber-500/25 transition-all cursor-pointer">
+              次のPartへ進む ➔
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. 4-CHOICE QUIZ VIEW ================= -->
+      <section id="viewQuiz" class="hidden flex-1 flex flex-col justify-between max-w-xl mx-auto w-full py-1">
+        <!-- Quiz Intro -->
+        <div id="quizIntro" class="my-auto text-center py-6 px-4">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto bg-gradient-to-br from-amber-400 to-amber-600 rounded-3xl flex items-center justify-center text-3xl sm:text-4xl shadow-xl shadow-amber-500/20 mb-4">
+            📝
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">TOEIC 4択テスト</h2>
+          <p class="text-xs sm:text-sm text-slate-400 max-w-md mx-auto mt-2 leading-relaxed">
+            選択中のセクションから出題します。間違えた単語は自動的にミス履歴に記録され、弱点のみの再テストが可能です。
+          </p>
+
+          <!-- Quiz Config Box -->
+          <div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-4 my-5 text-left space-y-3">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">出題モード</label>
+              <div class="grid grid-cols-3 gap-2">
+                <button type="button" onclick="setQuizMode('en_to_ja')" id="qmode_en_to_ja" class="py-2 px-2 rounded-xl text-xs font-bold border border-amber-400 bg-amber-500 text-slate-950 shadow-sm transition-all text-center cursor-pointer">
+                  英 ➔ 和訳
+                </button>
+                <button type="button" onclick="setQuizMode('ja_to_en')" id="qmode_ja_to_en" class="py-2 px-2 rounded-xl text-xs font-bold border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all text-center cursor-pointer">
+                  和訳 ➔ 英語
+                </button>
+                <button type="button" onclick="setQuizMode('listening')" id="qmode_listening" class="py-2 px-2 rounded-xl text-xs font-bold border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all text-center cursor-pointer">
+                  🎧 耳トレ (音声)
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                <span>⏱ 解答制限時間</span>
+              </label>
+              <div class="grid grid-cols-4 gap-1.5">
+                <button type="button" onclick="setQuizTimer(0)" id="qtime_0" class="py-1.5 rounded-lg text-xs font-black border border-amber-400 bg-amber-500 text-slate-950 text-center cursor-pointer">無制限</button>
+                <button type="button" onclick="setQuizTimer(10)" id="qtime_10" class="py-1.5 rounded-lg text-xs font-bold border border-slate-700 bg-slate-800 text-slate-400 hover:text-white text-center cursor-pointer">10秒</button>
+                <button type="button" onclick="setQuizTimer(8)" id="qtime_8" class="py-1.5 rounded-lg text-xs font-bold border border-slate-700 bg-slate-800 text-slate-400 hover:text-white text-center cursor-pointer">8秒(本番)</button>
+                <button type="button" onclick="setQuizTimer(5)" id="qtime_5" class="py-1.5 rounded-lg text-xs font-bold border border-slate-700 bg-slate-800 text-slate-400 hover:text-white text-center cursor-pointer">5秒(瞬殺)</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Start Buttons -->
+          <div class="flex flex-col sm:flex-row justify-center gap-3">
+            <button onclick="startQuiz(30)" class="flex-1 py-3.5 px-5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-95 text-slate-950 font-black text-sm sm:text-base shadow-xl shadow-amber-500/25 transition-all cursor-pointer">
+              ⚡ 30問テスト開始
+            </button>
+            <button onclick="startQuiz(10)" class="py-3.5 px-5 rounded-2xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-white font-bold text-sm border border-slate-700 transition-all cursor-pointer">
+              サクッと10問
+            </button>
+            <button onclick="startQuiz(0)" class="py-3.5 px-5 rounded-2xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-white font-bold text-sm border border-slate-700 transition-all cursor-pointer">
+              全問テスト
+            </button>
+          </div>
+        </div>
+
+        <!-- Quiz Active Question Screen -->
+        <div id="quizActive" class="hidden flex-1 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-xs text-slate-400 font-bold">
+              <span id="quizProgressNum">第 1 / 30 問</span>
+              <span id="quizTimerBadge" class="hidden px-2 py-0.5 rounded-full font-mono text-xs font-black bg-slate-800 text-amber-400">⏱ 0s</span>
+              <span class="text-emerald-400 font-extrabold" id="quizCurrentScore">スコア: 0</span>
+            </div>
+            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700/50">
+              <div id="quizProgressBar" class="bg-gradient-to-r from-amber-500 to-emerald-400 h-full w-0 transition-all duration-200"></div>
+            </div>
+
+            <!-- Quiz Word Prompt Box -->
+            <div class="bg-gradient-to-br from-slate-900 to-indigo-950/60 border border-slate-700/80 text-white p-5 sm:p-7 rounded-3xl text-center shadow-xl relative mt-2">
+              <button onclick="playQuizWordAudio()" class="absolute top-3.5 right-3.5 p-2 rounded-xl bg-slate-800/80 hover:bg-amber-500 hover:text-slate-950 text-slate-300 transition-all cursor-pointer" title="発音を聞く">
+                🔊
+              </button>
+              <span id="quizInstructionBadge" class="text-[10px] font-black text-amber-400 uppercase tracking-widest bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20">
+                Question
+              </span>
+              <div id="quizListeningBox" class="hidden py-4">
+                <button onclick="playQuizWordAudio()" class="mx-auto w-16 h-16 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 flex items-center justify-center text-2xl shadow-lg shadow-amber-500/25 active:scale-95 transition-all cursor-pointer">
+                  🔊
+                </button>
+                <p class="text-xs text-slate-400 mt-2">もう一度聞く</p>
+              </div>
+              <h3 id="quizWordDisplay" class="text-2xl sm:text-4xl font-black mt-2 text-white tracking-tight">
+                word
+              </h3>
+            </div>
+          </div>
+
+          <div id="quizOptionsContainer" class="grid grid-cols-1 gap-2.5 my-4"></div>
+
+          <div class="text-center pt-2">
+            <button onclick="abandonQuiz()" class="text-xs text-slate-500 hover:text-rose-400 font-medium transition-colors cursor-pointer">
+              テストを中断して終了
+            </button>
+          </div>
+        </div>
+
+        <!-- Quiz Results Screen -->
+        <div id="quizResult" class="hidden my-auto py-4 text-center">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto bg-gradient-to-br from-amber-400 to-amber-600 rounded-3xl flex items-center justify-center text-3xl sm:text-4xl shadow-xl shadow-amber-500/20 mb-3">
+            🏆
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white">テスト結果</h2>
+          
+          <div class="my-4 p-5 bg-slate-800/70 border border-slate-700/80 rounded-3xl max-w-sm mx-auto shadow-xl">
+            <div id="quizResultScore" class="text-4xl sm:text-5xl font-black text-white tracking-tight">
+              28 <span class="text-xl text-slate-500">/ 30</span>
+            </div>
+            <div id="quizAccuracy" class="text-sm font-extrabold text-amber-400 mt-1">正答率: 93%</div>
+            <p id="quizComment" class="text-xs text-slate-300 mt-2 leading-relaxed">素晴らしい語彙力です！</p>
+          </div>
+
+          <!-- Crucial: Retry Mistakes Only -->
+          <div class="space-y-2 max-w-sm mx-auto w-full mb-4">
+            <button id="btnRetryMistakes" onclick="retryQuizMistakes()" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 active:scale-95 text-white font-black text-sm shadow-xl shadow-rose-600/25 transition-all flex items-center justify-center gap-2 cursor-pointer">
+              <span>⚠️</span>
+              <span>間違えた問題のみ再テスト (<span id="quizMistakeCountSpan">0</span>問)</span>
+            </button>
+            <button onclick="startQuiz(30)" class="w-full py-3 px-4 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm border border-slate-700 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>🔄 新たに30問テストを行う</span>
+            </button>
+            <button onclick="resetQuizScreen()" class="w-full py-2 px-4 rounded-xl text-xs text-slate-400 hover:text-white transition-colors cursor-pointer">
+              テスト設定画面に戻る
+            </button>
+          </div>
+
+          <div id="quizMistakesDetail" class="text-left mt-3 border-t border-slate-800 pt-3 max-h-48 overflow-y-auto pr-1">
+            <h4 class="text-xs font-bold text-rose-400 mb-2">今回ミスした単語一覧</h4>
+            <div id="quizMistakeList" class="space-y-1.5 text-xs"></div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= 3. SPELLING DRILL VIEW ================= -->
+      <section id="viewSpell" class="hidden flex-1 flex flex-col justify-between max-w-xl mx-auto w-full py-1">
+        <div class="flex items-center justify-between text-xs text-slate-400 font-semibold mb-2 px-1">
+          <span id="spellCounterText">単語 1 / 50</span>
+          <div class="flex items-center gap-1.5 bg-amber-500/15 border border-amber-500/30 text-amber-300 px-2.5 py-0.5 rounded-full text-[11px] font-bold">
+            <span>✨ 連続正解: <b id="spellStreakCount">0</b></span>
+          </div>
+        </div>
+
+        <div class="bg-slate-800/80 border border-slate-700/80 rounded-3xl p-6 sm:p-8 text-center shadow-xl space-y-5 my-auto">
+          <div>
+            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-700/60 px-2 py-0.5 rounded-md">
+              日本語の意味から英単語をスペリング
+            </span>
+            <h3 id="spellMeaningDisplay" class="text-xl sm:text-3xl font-black text-white mt-2.5 leading-relaxed">
+              意味を表示
+            </h3>
+          </div>
+
+          <div class="max-w-md mx-auto">
+            <input type="text" id="spellInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="英単語を入力してEnter" class="w-full text-center text-xl sm:text-2xl font-mono font-black py-3 px-4 rounded-2xl bg-slate-900 border-2 border-slate-600 focus:border-amber-400 focus:ring-4 focus:ring-amber-500/20 text-white outline-none transition-all shadow-inner">
+            <div id="spellFeedback" class="h-6 mt-2 text-xs font-bold transition-all flex items-center justify-center"></div>
+          </div>
+
+          <div class="flex flex-wrap justify-center gap-2 pt-1">
+            <button onclick="giveSpellHint()" class="py-2 px-3.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 text-xs font-bold transition-all flex items-center gap-1 active:scale-95 cursor-pointer">
+              <span>💡 1文字ヒント</span>
+            </button>
+            <button onclick="playCurrentAudio()" class="py-2 px-3.5 rounded-xl bg-slate-700/80 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-bold transition-all flex items-center gap-1 active:scale-95 cursor-pointer">
+              <span>🔊 発音再生</span>
+            </button>
+            <button onclick="checkSpelling()" class="py-2 px-5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-xs font-black transition-all active:scale-95 shadow-md shadow-emerald-600/25 cursor-pointer">
+              判定 (Enter)
+            </button>
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center mt-3 text-xs text-slate-400 pt-2 border-t border-slate-800">
+          <button onclick="navigateSpell(-1)" class="hover:text-white font-bold p-1 flex items-center gap-1 cursor-pointer">◀ 前へ</button>
+          <span class="text-[11px] text-slate-500">スラッシュ表記の単語はいずれかの正答でOK</span>
+          <button onclick="navigateSpell(1)" class="hover:text-white font-bold p-1 flex items-center gap-1 cursor-pointer">次へ ▶</button>
+        </div>
+      </section>
+
+      <!-- ================= 4. SPEED ATTACK VIEW (45s Sprint) ================= -->
+      <section id="viewSpeed" class="hidden flex-1 flex flex-col justify-between max-w-xl mx-auto w-full py-2">
+        <!-- Speed Intro -->
+        <div id="speedIntro" class="my-auto text-center py-6 px-4">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto bg-gradient-to-br from-amber-400 to-amber-600 rounded-3xl flex items-center justify-center text-3xl sm:text-4xl shadow-xl shadow-amber-500/20 mb-3">
+            ⚡
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white">45秒 高速アタック</h2>
+          <p class="text-xs sm:text-sm text-slate-400 max-w-md mx-auto mt-2 leading-relaxed">
+            表示された「英単語」と「意味」の組み合わせが合っているか（⭕）間違っているか（❌）を瞬時に判断！
+            TOEIC本番に必要な「瞬発力・反射力」を極限まで鍛え上げます。
+          </p>
+          <div class="mt-6 max-w-xs mx-auto w-full">
+            <button onclick="startSpeedGame()" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-95 text-slate-950 font-black text-base shadow-xl shadow-amber-500/25 transition-all cursor-pointer">
+              ⚡ 45秒アタック スタート！
+            </button>
+          </div>
+        </div>
+
+        <!-- Speed Active Game Play -->
+        <div id="speedActive" class="hidden flex-1 flex flex-col justify-between py-2">
+          <div class="flex items-center justify-between px-2">
+            <div class="flex items-center gap-2">
+              <span id="speedTimerText" class="font-mono text-2xl font-black text-amber-400">⏱ 45s</span>
+              <span id="speedComboBadge" class="hidden bg-amber-500/20 border border-amber-500/30 text-amber-300 font-black text-xs px-2.5 py-0.5 rounded-full animate-bounce">
+                🔥 <span id="speedComboCount">0</span> COMBO!
+              </span>
+            </div>
+            <div class="text-right">
+              <span class="text-xs text-slate-400">スコア:</span>
+              <span id="speedScoreText" class="font-black text-2xl text-emerald-400 ml-1">0</span>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-br from-slate-900 to-slate-800 border-2 border-slate-700/80 rounded-3xl p-6 sm:p-10 text-center shadow-2xl my-auto space-y-4">
+            <div id="speedWordText" class="text-3xl sm:text-5xl font-black text-white tracking-tight">word</div>
+            <div class="h-0.5 w-12 bg-amber-500/50 mx-auto rounded-full"></div>
+            <div id="speedMeaningText" class="text-xl sm:text-3xl font-extrabold text-amber-300">meaning</div>
+            <p class="text-xs text-slate-500 pt-2">この意味は合っていますか？</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 mt-4">
+            <button onclick="handleSpeedAnswer(false)" class="py-4 px-4 rounded-2xl bg-rose-950/60 hover:bg-rose-900/80 border-2 border-rose-500 text-rose-200 font-black text-lg sm:text-xl active:scale-95 transition-all shadow-lg shadow-rose-900/30 flex items-center justify-center gap-2 cursor-pointer">
+              <span>❌ 違う</span>
+            </button>
+            <button onclick="handleSpeedAnswer(true)" class="py-4 px-4 rounded-2xl bg-emerald-950/60 hover:bg-emerald-900/80 border-2 border-emerald-500 text-emerald-200 font-black text-lg sm:text-xl active:scale-95 transition-all shadow-lg shadow-emerald-900/30 flex items-center justify-center gap-2 cursor-pointer">
+              <span>⭕ 正しい</span>
+            </button>
+          </div>
+          <div class="text-center text-[11px] text-slate-500 mt-2 font-mono hidden sm:block">
+            [←] 違う ｜ [→] 正しい
+          </div>
+        </div>
+
+        <!-- Speed Finished -->
+        <div id="speedResult" class="hidden my-auto py-4 text-center">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto bg-gradient-to-br from-amber-400 to-amber-600 rounded-3xl flex items-center justify-center text-3xl sm:text-4xl shadow-xl shadow-amber-500/20 mb-3">
+            🏆
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white">タイムアップ！</h2>
+          <div class="my-5 p-5 bg-slate-800/80 border border-slate-700 rounded-3xl max-w-sm mx-auto shadow-xl space-y-2">
+            <div class="text-4xl sm:text-5xl font-black text-amber-400">
+              <span id="speedFinalScore">0</span> <span class="text-base text-slate-400">問正解</span>
+            </div>
+            <div class="text-xs font-bold text-slate-300">
+              最大コンボ: <span id="speedMaxCombo" class="text-emerald-400 font-extrabold">0</span> 連続正解
+            </div>
+          </div>
+          <div class="max-w-xs mx-auto w-full space-y-2">
+            <button onclick="startSpeedGame()" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-sm shadow-xl shadow-amber-500/25 transition-all cursor-pointer">
+              🔄 もう一度挑戦する
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 5. VOCABULARY LIST VIEW ================= -->
+      <section id="viewList" class="hidden flex-1 flex flex-col max-w-3xl mx-auto w-full py-1 space-y-3">
+        <div class="relative">
+          <input type="text" id="searchInput" oninput="handleSearchInput()" placeholder="英単語または日本語の意味で高速検索... (例: available, 提出する)" class="w-full bg-slate-800/90 border border-slate-700/80 rounded-2xl py-3 pl-10 pr-9 text-sm text-white placeholder-slate-400 focus:border-amber-400 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all shadow-inner">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            🔍
+          </div>
+          <button id="searchClearBtn" onclick="clearSearch()" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-white cursor-pointer">
+            ✕
+          </button>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-1">
+            <span class="text-slate-400 font-bold shrink-0">レベル:</span>
+            <button onclick="setListLevelFilter('all')" id="btnListLvl_all" class="px-2.5 py-1 rounded-lg font-bold bg-amber-500 text-slate-950 font-black cursor-pointer">全レベル</button>
+            <button onclick="setListLevelFilter('600')" id="btnListLvl_600" class="px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-400 hover:text-white border border-slate-700 cursor-pointer">600点</button>
+            <button onclick="setListLevelFilter('730')" id="btnListLvl_730" class="px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-400 hover:text-white border border-slate-700 cursor-pointer">730点</button>
+            <button onclick="setListLevelFilter('860')" id="btnListLvl_860" class="px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-400 hover:text-white border border-slate-700 cursor-pointer">860点</button>
+            <button onclick="setListLevelFilter('990')" id="btnListLvl_990" class="px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-400 hover:text-white border border-slate-700 cursor-pointer">990点</button>
+            <button onclick="setListLevelFilter('extra')" id="btnListLvl_extra" class="px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-400 hover:text-white border border-slate-700 cursor-pointer">付録</button>
+          </div>
+
+          <div class="flex items-center gap-1 overflow-x-auto">
+            <button onclick="setListStatusFilter('all')" id="btnListStat_all" class="px-2 py-1 rounded-lg font-bold text-[11px] bg-slate-200 text-slate-950 font-black cursor-pointer">全状態</button>
+            <button onclick="setListStatusFilter('unlearned')" id="btnListStat_unlearned" class="px-2 py-1 rounded-lg font-bold text-[11px] bg-slate-800/80 text-slate-400 hover:text-white border border-slate-700/60 cursor-pointer">未習得</button>
+            <button onclick="setListStatusFilter('learned')" id="btnListStat_learned" class="px-2 py-1 rounded-lg font-bold text-[11px] bg-slate-800/80 text-slate-400 hover:text-white border border-slate-700/60 cursor-pointer">習得済</button>
+            <button onclick="setListStatusFilter('mistakes')" id="btnListStat_mistakes" class="px-2 py-1 rounded-lg font-bold text-[11px] bg-slate-800/80 text-slate-400 hover:text-white border border-slate-700/60 cursor-pointer">⚠️ 苦手</button>
+            <button onclick="setListStatusFilter('bookmarked')" id="btnListStat_bookmarked" class="px-2 py-1 rounded-lg font-bold text-[11px] bg-slate-800/80 text-slate-400 hover:text-white border border-slate-700/60 cursor-pointer">⭐</button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-slate-400 px-1">
+          <span id="listResultCount">表示件数: 0件</span>
+          <span class="text-[11px] text-slate-500">タップで音声再生 / 習得切り替え</span>
+        </div>
+
+        <div id="wordListItemsContainer" class="flex-1 overflow-y-auto space-y-1.5 pr-1 max-h-[56vh] sm:max-h-[60vh]"></div>
+      </section>
+
+      <!-- ================= 6. ANALYTICS & DASHBOARD VIEW ================= -->
+      <section id="viewAnalytics" class="hidden flex-1 flex flex-col max-w-3xl mx-auto w-full py-2 space-y-5">
+        <!-- Overview 4 Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-3.5 text-center shadow-lg">
+            <div id="statOverallPct" class="text-2xl sm:text-3xl font-black text-amber-400">0%</div>
+            <div class="text-[11px] font-bold text-slate-400 mt-0.5">全体習得率</div>
+            <div id="statLearnedRatio" class="text-[10px] text-slate-500">0 / 1134語</div>
+          </div>
+          <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-3.5 text-center shadow-lg">
+            <div id="statTodayCount" class="text-2xl sm:text-3xl font-black text-emerald-400">0</div>
+            <div class="text-[11px] font-bold text-slate-400 mt-0.5">本日マスター</div>
+            <div id="statStreakDays" class="text-[10px] text-slate-500">継続ストリーク: 1日</div>
+          </div>
+          <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-3.5 text-center shadow-lg">
+            <div id="statMistakesTotal" class="text-2xl sm:text-3xl font-black text-rose-400">0</div>
+            <div class="text-[11px] font-bold text-slate-400 mt-0.5">要注意ミス単語</div>
+            <div class="text-[10px] text-slate-500">反復復習対象</div>
+          </div>
+          <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-3.5 text-center shadow-lg">
+            <div id="statBookmarksTotal" class="text-2xl sm:text-3xl font-black text-sky-400">0</div>
+            <div class="text-[11px] font-bold text-slate-400 mt-0.5">ブックマーク</div>
+            <div class="text-[10px] text-slate-500">お気に入り登録</div>
+          </div>
+        </div>
+
+        <!-- TOEIC Score Readiness Banner -->
+        <div class="bg-gradient-to-r from-amber-500/20 via-indigo-950/40 to-slate-900 border border-amber-500/40 rounded-3xl p-5 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <span class="text-[10px] font-black text-amber-400 uppercase tracking-widest bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20">
+              語彙力判定
+            </span>
+            <h3 id="statScorePredictionText" class="text-xl sm:text-2xl font-black text-white mt-1">
+              600点 レベル到達見込み
+            </h3>
+            <p class="text-xs text-slate-400 mt-1">金フレの網羅率とミス頻度から算出した現在の語彙力水準です。</p>
+          </div>
+          <button onclick="startWeaknessFromAnalytics()" class="w-full sm:w-auto py-2.5 px-4 rounded-xl bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 active:scale-95 text-white font-black text-xs shadow-lg shadow-rose-600/25 transition-all flex items-center justify-center gap-1.5 shrink-0 cursor-pointer">
+            <span>⚠️ 弱点特訓を開始</span>
+          </button>
+        </div>
+
+        <!-- Level Breakdown Progress Bars -->
+        <div class="bg-slate-800/70 border border-slate-700/80 rounded-3xl p-5 shadow-xl space-y-4">
+          <h4 class="text-sm font-black text-white flex items-center gap-2">
+            <span>📈 目標レベル別 マスター進捗</span>
+          </h4>
+          <div id="analyticsBarsContainer" class="space-y-3.5"></div>
+        </div>
+
+        <!-- Worst 10 Mistakes -->
+        <div id="analyticsWeakestBox" class="bg-slate-800/70 border border-slate-700/80 rounded-3xl p-5 shadow-xl space-y-3">
+          <h4 class="text-sm font-black text-rose-400 flex items-center gap-2">
+            <span>⚠️ ミス回数ワースト単語 TOP 10</span>
+          </h4>
+          <div id="analyticsWeakList" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs"></div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ================= BACKUP & RESTORE MODAL ================= -->
+    <div id="backupModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl text-slate-200 max-h-[90vh] overflow-y-auto space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">💾</span>
+            <h3 class="text-base font-extrabold text-white">学習データの保存・引き継ぎ・復元</h3>
+          </div>
+          <button onclick="closeBackupModal()" class="text-slate-400 hover:text-white p-1 text-lg font-bold cursor-pointer">✕</button>
+        </div>
+
+        <!-- Method 1: Transfer Code -->
+        <div class="p-4 bg-slate-800/80 rounded-2xl border border-slate-700/80 space-y-3">
+          <h4 class="text-xs font-black text-amber-300 uppercase tracking-wide flex items-center gap-1.5">
+            <span>📋 引き継ぎテキストコード (スマホ・iPad・PC間で即同期)</span>
+          </h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            現在の学習進捗（習得単語・ミス回数・ブックマーク）をコードとしてコピーし、他端末で即座に復元できます。
+          </p>
+          <button onclick="copyTransferCode()" class="w-full py-2.5 px-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer">
+            <span>📋 現在の記録コードをコピー</span>
+          </button>
+          <div class="pt-2 border-t border-slate-700/60">
+            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">復元用コードを貼り付け:</label>
+            <textarea id="transferCodeInput" rows="2" placeholder="以前コピーした引き継ぎコードを貼り付けてください" class="w-full text-xs font-mono p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-white focus:border-amber-400 outline-none"></textarea>
+            <button onclick="restoreFromTransferCode()" class="mt-1.5 w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs rounded-xl transition-all cursor-pointer">
+              復元コードを適用する
+            </button>
+          </div>
+        </div>
+
+        <!-- Method 2: JSON File -->
+        <div class="p-3.5 bg-slate-800/60 rounded-2xl border border-slate-700/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+          <div>
+            <span class="font-bold text-white block">JSONファイル管理</span>
+            <span class="text-[11px] text-slate-400">PCでのバックアップ保管用</span>
+          </div>
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <button onclick="exportBackupJson()" class="flex-1 sm:flex-initial py-2 px-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs transition-all cursor-pointer">
+              ファイル保存
+            </button>
+            <label class="flex-1 sm:flex-initial py-2 px-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs transition-all flex items-center justify-center cursor-pointer text-center">
+              ファイル読込
+              <input type="file" accept=".json" onchange="importBackupJson(event)" class="hidden">
+            </label>
+          </div>
+        </div>
+
+        <!-- Reset Button -->
+        <div class="pt-2">
+          <button onclick="confirmResetAllData()" class="w-full py-2 px-3 bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/60 text-rose-300 font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+            <span>⚠️ 全学習データを初期化する</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="customModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-5 shadow-2xl text-center space-y-4">
+        <div class="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center mx-auto text-xl border border-rose-500/30">⚠️</div>
+        <div>
+          <h3 id="modalTitle" class="text-base font-extrabold text-white">確認</h3>
+          <p id="modalMessage" class="text-xs text-slate-400 mt-1 leading-relaxed">この操作を実行しますか？</p>
+        </div>
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button onclick="closeModal(false)" class="py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300 transition-all cursor-pointer">キャンセル</button>
+          <button id="modalConfirmBtn" onclick="closeModal(true)" class="py-2.5 px-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-xs font-black text-white shadow-lg shadow-rose-600/25 transition-all cursor-pointer">実行する</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="pointer-events-none fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 border border-slate-700 text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-2xl opacity-0 transition-opacity duration-300 flex items-center gap-2">
+      <span>🔔</span> <span id="toastText">通知メッセージ</span>
+    </div>
+
+  </div>
+
+  <script>
+/**
+ * TOEIC 金のフレーズ 全1,134項目 完全データベース
+ * [level, word, meaning]
+ */
+const MASTER_DATA = [["600","anyway","とにかく"],["600","following","～に続いて 次の、以下の"],["600","refer","参照する、言及する、(人を)紹介する"],["600","available","入手できる、利用できる、手が空いている"],["600","department","部門、売り場"],["600","conference","会議"],["600","according to","～によると、～に従って"],["600","likely","おそらく ～しそうだ"],["600","offer","申し出る、提供する 申し出、オファー"],["600","equipment","機器、装備"],["600","provide","提供する"],["600","local","地元の 地元の人"],["600","purchase","購入する 購入品"],["600","opening","空き、開店"],["600","construction","建設"],["600","tour","見学する、旅行する 見学、旅行"],["600","research","研究、調査 研究する、調査する"],["600","attend","出席する、参加する"],["600","delivery","配達(物)"],["600","recently","最近"],["600","indicate","示す"],["600","employee","社員、従業員"],["600","additional","追加の"],["600","survey","アンケート調査 アンケート調査を行う"],["600","review","検討する、論評する 検討、論評"],["600","production","生産、作品"],["600","located","位置して"],["600","detail","詳細 詳しく述べる"],["600","announce","発表する"],["600","repair","修理 修理する"],["600","increase","増加 増える、増やす"],["600","include","含む"],["600","currently","現在"],["600","advertising","広告(業)、宣伝(活動)"],["600","charge","請求する 料金、責任"],["600","expect","予期する、予定する"],["600","firm","会社"],["600","client","客、クライアント"],["600","financial","お金の、財務の、金融の"],["600","annual","年に1度の、毎年恒例の、年間の"],["600","payment","支払い"],["600","budget","予算 予算に計上する"],["600","application","応募書類、応募、申請"],["600","contract","契約(書)"],["600","management","経営(陣)、管理"],["600","performance","業績、仕事ぶり、性能、公演"],["600","pleased","喜んで、満足して"],["600","confirm","確認する"],["600","award","賞 授与する"],["600","clothing","衣類"],["600","display","展示 展示する"],["600","candidate","候補者"],["600","state","述べる"],["600","exhibit","展示物、展示会 展示する"],["600","session","時間、集まり"],["600","note","注意する、述べる メモ"],["600","process","処理する プロセス、過程、処理"],["600","instruction","説明書、説明、指示"],["600","membership","会員(であること)、会員資格、会員数"],["600","agency","代理店、機関"],["600","based","拠点のある、基づく"],["600","facility","施設"],["600","advance","先行した、事前の 進歩、前進"],["600","committee","委員会"],["600","successful","成功した、うまく行く"],["600","excellent","素晴らしい"],["600","industry","産業、業界"],["600","fee","料金"],["600","accept","受け入れる"],["600","upcoming","今度の"],["600","latest","最新の"],["600","submit","提出する"],["600","transportation","輸送手段"],["600","résumé","履歴書"],["600","executive","重役 重役(用)の、高級な"],["600","introduce","導入する、紹介する"],["600","previous","前の、以前の"],["600","proposal","提案、提案書"],["600","supply","必需品 供給する"],["600","enclose","同封する、囲む"],["600","policy","規定、方針"],["600","register","登録する レジ"],["600","arrange","手配する、並べる"],["600","bill","請求書 請求書を送る"],["600","hire","雇う"],["600","approve","承認する、賛成する"],["600","conduct","実行する、実施する"],["600","opportunity","機会、チャンス"],["600","deadline","締め切り、期限"],["600","corporate","企業の、法人の"],["600","warranty","保証、保証書"],["600","necessary","必要な"],["600","reserve","予約する、確保する 蓄え"],["600","resident","住民、住人"],["600","create","創造する、作り出す"],["600","inform","知らせる、影響を与える"],["600","allow","許す、可能にする"],["600","mention","述べる、言及する 言及"],["600","appreciate","感謝する"],["600","replacement","交換、交換品、後任"],["600","update","最新情報 更新する"],["600","branch","支店"],["600","paid","有給の、支払い済みの"],["600","unfortunately","残念なことに、残念ながら"],["600","original","元の、最初の オリジナル、原本"],["600","rent","家賃 賃貸借する"],["600","memo","社内文書"],["600","luggage","旅行かばん、手荷物"],["600","editor","編集者"],["600","exhibition","展示会、展示物、展示"],["600","leading","首位の、一流の"],["600","organization","団体、会社、組織(化)"],["600","release","発売する、公表する 発売"],["600","limited","限られた"],["600","procedure","手続き、手順"],["600","experienced","経験豊富な"],["600","personnel","社員、人事部"],["600","author","著者、作者 (本を)書く"],["600","benefit","特典、福利厚生 ～のためになる"],["600","focus","(意識等を)〜に集中させる、重点を置く 焦点、集中"],["600","participate","参加する"],["600","cause","原因、大義 引き起こす"],["600","degree","学位、程度、(温度や角度の単位の)度"],["600","directly","直接"],["600","host","司会者 主催する"],["600","expert","専門家 専門的な"],["600","impress","感心させる、好印象を与える"],["600","mainly","主に"],["600","suggestion","提案"],["600","supplier","納入業者、供給業者"],["600","document","書類 (文書や映像等で)記録する"],["600","remind","再確認する、念押しする"],["600","require","求める、要求する"],["600","representative","担当者、代表者"],["600","packaging","梱包、パッケージ"],["600","description","説明、記述、描写"],["600","property","不動産、資産"],["600","extension","内線、延長"],["600","inquire","尋ねる、問い合わせる"],["600","merchandise","商品"],["600","highly","非常に"],["600","result","生じる、終わる 結果"],["600","assistance","支援、援助"],["600","encourage","奨励する、促す"],["600","individual","個人 個人の、個別の"],["600","laboratory","研究所、実験室"],["600","consider","考える、検討する"],["600","headquarters","本社"],["600","ship","出荷する 船"],["600","commercial","商業(用)の、商業的な CM"],["600","device","機器、装置"],["600","intended","意図された、向けられた"],["600","brochure","パンフレット"],["600","mail","郵便物、郵便配達 郵送する"],["600","prefer","～を(...よりも)好む"],["600","response","返答、返事"],["600","region","地域"],["600","donation","寄付"],["600","quarter","四半期"],["600","agreement","契約(書)、同意(書)、合意"],["600","journal","専門誌"],["600","distribute","配布する、流通させる"],["600","potential","見込みがある、潜在的な 可能性"],["600","reschedule","スケジュール変更する"],["600","renew","更新する"],["600","warehouse","倉庫"],["600","refund","返金 返金する"],["600","advise","勧める、忠告する、助言する"],["600","immediately","すぐに、即座に"],["600","council","議会"],["600","broadcast","放送する 放送"],["600","responsible","相当している、責任がある"],["600","avoid","避ける"],["600","effective","効果的な"],["600","invitation","招待(状)"],["600","reduce","(値段を)下げる、減らす"],["600","vehicle","乗り物、車両"],["600","efficient","効率的な"],["600","manufacturer","メーカー、製造業者"],["600","comfortable","快適な、楽な、自信がある"],["600","correct","正確な、正しい 修正する"],["600","downtown","中心街の 中心街で 中心街"],["600","method","方法"],["600","entire","全体の"],["600","range","範囲"],["600","setting","環境"],["600","apologize","おわびする"],["600","frequent","頻繁な"],["600","promotion","昇進、販売促進"],["600","regarding","〜に関する"],["600","temporary","一時的な、臨時の"],["600","traditional","伝統的な、従来の"],["600","admission","入場、入場料、入場許可"],["600","fit","合う、入る"],["600","reference","照会先、照会、参照"],["600","status","状況、地位"],["600","fuel","燃料"],["600","nearly","ほとんど、もう少しで"],["600","cafeteria","社員食堂"],["600","determine","決定する、判断する、決心する"],["600","expense","費用、経費"],["600","overseas","海外の 海外で"],["600","satisfied","満足した"],["600","appear","現れる、掲載される、～のように見える"],["600","develop","(計画等を)作り出す、開発する、(スキルを)高める"],["600","improve","改善する、改良する"],["600","reasonable","(値段が)手ごろな、妥当な"],["600","unable","(～することが)できない"],["600","delay","遅らせる 遅れ"],["600","legal","法律に関する、合法の"],["600","regulation","規制、規則"],["600","expand","拡大する、進出する"],["600","launch","開始、発売 開始する、発売する"],["600","recommendation","推薦"],["600","direct","向ける、管理する 直接の"],["600","profit","利益 利益を与える"],["600","seek","探し求める"],["600","entry","エントリー(作品)、入場"],["600","claim","申し立て、主張、所有権 主張する、所有権を主張する"],["600","crew","グループ、班、乗員"],["600","demand","需要 要求する"],["600","figure","数字、人物"],["600","raise","上げる、(お金を)集める、高める 昇給"],["600","attach","添付する"],["600","attract","引き付ける、呼び込む"],["600","insurance","保険"],["600","departure","出発、逸脱"],["600","mayor","町長、市長"],["600","balance","残金、残額、バランス"],["600","estimate","見積もり 見積もる"],["600","district","地区"],["600","former","前の、かつての 前者"],["600","modern","現代的な、近代的な"],["600","tip","アドバイス、コツ"],["600","establish","設立する、創立する"],["600","option","選択肢、オプション"],["600","retire","退職する"],["600","search","捜索、検索 探す、検索する"],["600","specific","具体的な、特定の"],["600","agricultural","農業の"],["600","historical","歴史(上)の"],["600","helpful","役立つ、助けになる"],["600","complaint","苦情、クレーム"],["600","related","関連した"],["600","simply","単純に、単に"],["600","unique","他にはない、独自の、特有の"],["600","concerning","～に関する"],["600","reputation","評判"],["600","ability","能力"],["600","arrival","到着"],["600","familiar","よく知っている、おなじみの"],["600","ideal","理想的な"],["600","maintain","維持する、主張する"],["600","landscaping","造園"],["600","organize","(イベントなどを)計画する、取りまとめる、組織化する"],["600","significant","かなりの、大幅な、重要な"],["600","occasion","特別な行事 (何かが起こる)時、好機"],["600","standard","基準 標準の"],["600","background","経歴、背景"],["600","guided","ガイド付きの"],["600","advanced","進んだ、上級の、高度な"],["600","alternative","代わりの 代案"],["600","confident","確信している、自信がある"],["600","decade","10年間、10年"],["600","initial","初めの、当初の"],["600","separate","分かれた、別々の 分ける"],["600","celebration","お祝い、祝典"],["600","concern","心配、懸念、関心事"],["600","environment","環境"],["600","operate","操作する、運営する"],["600","various","さまざまな"],["600","brief","短い"],["600","full-time","常勤の"],["600","overall","全体の 全体として"],["600","achieve","達成する"],["600","basis","ベース、基準、根拠"],["600","complex","複合施設、集合住宅 複雑な"],["600","delighted","とても喜んでいる"],["600","obtain","得る、取得する"],["600","honor","称える、(契約等を)守る 名誉"],["600","properly","ちゃんと、適切に"],["600","suitable","ふさわしい、適切な"],["600","electronic","電子の、電子的な"],["600","finalize","取りまとめる、仕上げる、最終決定する"],["600","generous","寛大な、気前のよい"],["600","preparation","準備、用意"],["600","duty","任務、職務、関税"],["600","earn","得る、もたらす"],["600","willing","〜することを嫌がらない、～する気がある"],["600","worth","価値がある"],["600","fund","資金を提供する 資金、基金"],["600","overnight","一晩の、翌日配送の 一晩"],["600","particularly","特に"],["600","aspect","面、局面"],["600","hesitate","ためらう"],["600","involved","関わった"],["600","regularly","定期的に"],["600","scholarship","奨学金"],["600","shortly","じきに、まもなく"],["600","automobile","自動車の 自動車"],["600","deposit","頭金、敷金、保証金 預け入れる"],["600","contain","含む、所有する"],["600","content","内容、中身 満足している"],["600","proof","証拠、証明"],["600","affect","影響する"],["600","recognize","(業績等を)認める、(人を)称える、識別する"],["600","represent","代表を務める、相当する、表す"],["600","transfer","転勤させる(する)、移動させる(する) 転勤、移動"],["600","anniversary","～周年、記念日"],["600","automatically","自動的に"],["600","capacity","(生産)能力、収容能力、役割"],["600","destination","目的地、行き先"],["600","grant","補助金、助成金 与える、許可する"],["600","publish","出版する"],["600","accompany","添付する、同行する"],["600","economic","経済の、経済上の"],["600","extremely","きわめて、非常に"],["600","institution","機関、団体、しきたり"],["600","accurate","正確な"],["600","compete","競う"],["600","emphasize","強調する"],["600","aware","気付いて"],["600","crowded","混雑した"],["600","praise","ほめる 称賛"],["600","valuable","貴重な"],["600","explore","調査する、探索する"],["600","found","設立する、創立する"],["600","function","機能 機能する"],["600","impact","影響"],["600","amazing","驚くべき"],["600","assure","保証する、請け合う"],["600","cooperation","協力"],["600","popularity","人気"],["600","permit","許可証 許可する"],["600","solve","解決する"],["600","vote","投票する 投票"],["600","crop","作物、収穫量"],["600","neighborhood","近所、地域"],["600","permanent","常設の、常雇用の、永久の"],["600","regret","残念に思う"],["600","slightly","わずかに、少し"],["600","complicated","複雑な"],["600","factor","要因、要素"],["600","favorable","好意的な、有利な"],["600","guarantee","保証する 保証"],["600","mechanical","機械の"],["600","priority","優先順位、優先事項"],["600","relatively","比較的"],["600","resource","資源"],["600","shuttle","定期往復便"],["600","divide","分ける"],["600","native","出身の 出身の人"],["600","afford","～する余裕がある"],["600","income","収入"],["600","occur","起こる、発生する、行われる"],["600","saving","値引き、貯蓄、節約"],["600","findings","(研究・調査の)結果、わかったこと"],["600","locate","見つける"],["600","postpone","延期する"],["600","preserve","保護する、保存する 保護区"],["600","prove","わかる、判明する、証明する"],["600","exact","正確な"],["600","gain","得る 増加、利益"],["600","labor","労働、労働者"],["600","regard","みなす、評価する 点"],["600","closely","密に、注意深く"],["600","deserve","値する"],["600","identify","特定する"],["600","loyal","忠実な"],["600","promising","有望な"],["600","stress","強調する ストレス、強調"],["600","analyze","分析する"],["600","commission","委託する、委任する 委員会、歩合"],["600","committed","熱心に取り組む、献身的な"],["600","comparison","比較"],["600","component","部品"],["600","enable","可能にする"],["600","enjoyable","楽しい"],["600","existing","従来の、既存の"],["600","flyer","チラシ、(飛行機の)乗客"],["600","proceed","進む"],["600","prevent","防ぐ、阻む"],["600","alike","同様に よく似た"],["600","appoint","指名する、任命する"],["600","connection","接続、つながり、関連、乗り継ぎ"],["600","eager","～したがる、熱望する"],["600","ease","容易さ、たやすさ やわらげる、容易にする"],["600","fairly","かなり"],["600","absolutely","完全に、間違いなく"],["600","atmosphere","雰囲気"],["600","calculate","計算する"],["600","contrast","対照、はっきりした違い 対照的である"],["600","monitor","監視する (コンピュータの)モニター"],["600","occasionally","時々"],["600","practical","実務の、実際の、実用的な"],["600","serious","重大な、真剣な、重要な"],["600","strength","強さ、強度、(液体等の)濃さ"],["600","equally","同じように、均等に"],["600","import","輸入、輸入品 輸入する"],["600","informal","非公式の、カジュアルな"],["730","lately","最近、この頃"],["730","profession","専門的職業"],["730","supervisor","上司、責任者"],["730","ensure","保証する、請け合う"],["730","submission","提出物、提出"],["730","notify","知らせる"],["730","definitely","間違いなく、絶対に"],["730","eligible","資格がある"],["730","paperwork","書類、書類作業"],["730","complimentary","無料の"],["730","revise","修正する、見直す"],["730","track","追跡する 線路、走路"],["730","administrative","管理の"],["730","retail","小売り"],["730","inventory","在庫(表)、棚卸"],["730","extensive","詳細な、幅広い、大規模な"],["730","promotional","販売促進用の、販促の"],["730","catering","仕出し、出前、ケータリング"],["730","wildlife","野生動物"],["730","assign","割り当てる、任命する"],["730","imply","ほのめかす、暗示する"],["730","banquet","夕食会"],["730","valid","有効な"],["730","affordable","手ごろな"],["730","renovate","改装する"],["730","guidelines","指針、ガイドライン"],["730","certificate","認定証、修了証"],["730","innovative","革新的な"],["730","agenda","議題、協議事項"],["730","assembly","組立、集会"],["730","install","設置する、導入する、インストールする"],["730","orientation","新入社員向け説明会"],["730","renowned","名高い、著名な"],["730","appropriate","適切な、適した"],["730","ingredient","(料理の)材料"],["730","storage","保管、貯蔵"],["730","beverage","飲料"],["730","prior","前の"],["730","merger","合併、統合"],["730","inn","宿、ホテル"],["730","equip","備え付ける、装備する"],["730","summary","要約"],["730","lease","賃貸借(契約) 賃貸借する"],["730","defective","欠陥のある、不良の"],["730","quarterly","年に4回の、四半期ごとの"],["730","extended","長期の、長時間の"],["730","architect","建築家"],["730","grocery","食品雑貨の 食品雑貨"],["730","sculpture","彫刻"],["730","itinerary","旅程表"],["730","directory","名簿"],["730","expire","期限が切れる"],["730","vendor","業者、露天商"],["730","colleague","同僚"],["730","patron","愛用者、利用者"],["730","relocate","移転させる、引っ越す"],["730","tourism","観光事業"],["730","remodel","改築する、リフォームする"],["730","consumer","消費者"],["730","inspect","検査する"],["730","numerous","数多くの"],["730","payroll","給与、給与管理、賃金台帳"],["730","qualified","資格のある、適任の"],["730","appliance","電化製品"],["730","competitive","他に負けない、競争の激しい"],["730","specialize","専門とする"],["730","questionnaire","アンケート用紙"],["730","approximately","おおよそ、約"],["730","contribute","貢献する、寄付する"],["730","productivity","生産性"],["730","promptly","すばやく、きっかりに、即座に"],["730","strategy","戦略"],["730","dedicated","献身的な、専用の、特化した"],["730","exceptional","並外れた、非常に素晴らしい"],["730","luncheon","昼食会"],["730","exceed","超える"],["730","multiple","複数の"],["730","specify","明確に述べる、明記する"],["730","venue","会場"],["730","household","家庭用の 家庭"],["730","evaluate","評価する"],["730","negotiate","交渉する"],["730","booking","予約"],["730","circulation","発行部数、流通、(図書館の)貸出"],["730","completion","完了、終了"],["730","relevant","関連した"],["730","thorough","徹底的な"],["730","via","～を経由して"],["730","workplace","職場"],["730","accommodations","宿泊施設"],["730","flexible","柔軟な、フレキシブルな"],["730","predict","予測する"],["730","preference","好み、希望"],["730","substantial","かなりの、頑丈な"],["730","accessible","到達できる、利用できる"],["730","coverage","報道、(保険の)補償"],["730","generate","生み出す"],["730","refreshment","軽い飲食物"],["730","reliable","信頼できる、頼りになる"],["730","revenue","収入"],["730","fund-raising","資金調達のための、慈善の"],["730","accomplished","熟達した、スキルの高い"],["730","acquire","買収する、得る、獲得する"],["730","accordingly","それに応じて、結果として"],["730","critic","評論家、批評家"],["730","highlight","強調する、スポットを当てる 見どころ"],["730","profile","人物紹介する プロフィール"],["730","motivate","やる気にさせる"],["730","subscription","購読、加入、会費"],["730","encounter","(問題や困難に)直面する、遭う、出くわす"],["730","luxury","高級な 高級、ぜいたく"],["730","prohibit","禁止する"],["730","resolve","解決する"],["730","restore","復旧させる、取り戻す、修復する"],["730","surrounding","周辺の"],["730","alert","(重要なことを)知らせる 警戒した 警報"],["730","anticipated","待ち望まれた"],["730","consistently","常に、変わらず"],["730","dairy","乳製品、酪農場、酪農業"],["730","phase","段階"],["730","manuscript","原稿"],["730","overtime","残業 時間外に"],["730","premises","敷地"],["730","utility","公共料金、公共サービス"],["730","laundry","洗濯(物)"],["730","enthusiastic","熱心な、関心が高い、乗り気である"],["730","outline","概要を説明する 概要"],["730","packet","小包、袋"],["730","retain","保管する"],["730","belongings","所持品、所有物"],["730","conservation","節約、環境保護"],["730","routine","所定の、日常的に行われる"],["730","urban","都会の、都市の、都会での"],["730","workforce","全従業員"],["730","biography","人物紹介、伝記"],["730","ownership","所有(権)、所有者であること"],["730","pastry","焼き菓子"],["730","tenant","賃借人、入居者"],["730","workload","仕事量"],["730","sufficient","十分な"],["730","characteristic","特徴 特徴的な"],["730","combined","共同の、連合の"],["730","conclude","終わる、終える、結論を出す"],["730","associate","関連付ける 同僚、アシスタント"],["730","conflict","衝突、対立"],["730","investment","投資"],["730","physician","医師"],["730","token","印"],["730","partial","部分的な、一部の"],["730","resume","再開する"],["730","dealership","販売特約店"],["730","garment","衣料品"],["730","implement","実行する、実施する"],["730","paycheck","給与、給与小切手"],["730","recruit","採用する、募集する 新人"],["730","substitute","～を代わりに用いる 代わりを務める人、代用品"],["730","typically","通常、典型的に"],["730","authorize","公認する、権限を与える"],["730","comparable","同等の、匹敵する、類似の"],["730","faculty","(大学の)教員、学部"],["730","initiative","新しい計画、主導権"],["730","postage","郵便料金"],["730","afterwards","その後で"],["730","aim","目指す、狙う 目標、狙い"],["730","generally","おおむね、通常、一般的に"],["730","occupied","(部屋・座席・ベッド等が)使われている"],["730","solid","確かな、信頼できる"],["730","attempt","試み 試みる"],["730","authority","権限、権力、権威、当局"],["730","domestic","国内の"],["730","permission","許可"],["730","presence","存在感、出席"],["730","rapidly","急速に"],["730","relief","安心感、(苦痛・悩み等の)緩和"],["730","reward","報いる、ほうびを与える 報酬、ほうび"],["730","translate","翻訳する"],["730","circumstance","状況"],["730","contrary","正反対の 正反対"],["730","eventually","最終的には、結局"],["730","expose","さらす、触れさせる、暴露する"],["730","panel","グループ、パネル"],["730","portion","部分、一人分の食事"],["730","primary","主な"],["730","remark","(スピーチでの)言葉、コメント、意見"],["730","timely","タイミングの良い、タイムリーな"],["730","commonly","一般に、通常、普通に"],["730","consult","(医者、弁護士等の専門家に)相談する"],["730","convert","改造する、変える"],["730","obligation","義務"],["730","resign","辞職する、辞任する"],["730","securely","しっかりと、安全に"],["730","strive","懸命に努力する"],["730","timeline","予定表"],["730","urge","強く促す"],["730","acknowledge","(受け取ったことを)知らせる、認める"],["730","diverse","多種多様な、たくさんの種類の"],["730","transaction","取引"],["730","lack","不足 ～が不足している"],["730","essential","最も重要な、必要不可欠な、本質的な"],["730","majority","大多数、大部分"],["730","observe","気付く、順守する、観察する"],["730","possess","持つ、所有する"],["730","sharply","急激に、はっきりと"],["730","adjustment","調整、調節"],["730","aisle","通路"],["730","capture","(映像や写真に)記録する、とらえる"],["730","consist","～から成る"],["730","desirable","望ましい"],["730","heavily","大量に、非常に頻繁に"],["730","investigate","調査する"],["730","measurement","寸法、測定"],["730","urgent","緊急の"],["730","checkout","レジ、チェックアウト"],["730","dispose","処分する"],["730","modify","修正する"],["730","outlet","店舗、コンセント"],["730","prescription","処方せん"],["730","situated","位置している"],["730","surprisingly","驚いたことに"],["730","transform","(姿、形、性質等を)一変させる"],["730","undergo","(検査、修理等を)経験する、受ける"],["730","blueprint","設計図、青写真"],["730","boost","押し上げる、引き上げる 押し上げること"],["730","considerably","かなり"],["730","eliminate","取り除く、排除する"],["730","exclusively","限定で、独占的に"],["730","leak","漏れる、漏らす 漏れ"],["730","preliminary","仮の、暫定の、本番前の"],["730","sophisticated","洗練された、高性能の"],["730","statistics","統計、統計学"],["730","vacant","空の、空いた、欠員の"],["730","evidence","証拠、証明"],["730","excursion","お出かけ、小旅行"],["730","influence","影響を与える 影響"],["730","ordinary","普通の、通常の"],["730","reject","却下する、拒否する"],["730","tailor","(ニーズや目的に合うように)合わせる、調整する"],["730","assume","引き受ける、思い込む、仮定する"],["730","engagement","約束"],["730","fame","名声"],["730","modest","少しの、高価ではない、謙虚な"],["730","patent","特許"],["730","pursue","追及する、追い求める"],["730","remote","人里離れた、可能性が低い"],["730","reveal","明らかにする"],["730","allowance","手当、小遣い、許容量"],["730","crucial","非常に重要な"],["730","distinguished","際立って優れた、傑出した"],["730","disturb","邪魔する、悩ませる"],["730","fluent","流ちょうな、堪能な"],["730","fulfill","満たす、果たす"],["730","objective","目的、目標"],["730","restrict","制限する"],["730","steadily","着実に"],["730","adequate","(要求を満たすのに)十分な、適切な"],["730","assessment","評価、見積もり"],["730","attribute","起因すると考える、おかげであるとする"],["730","beforehand","あらかじめ、事前に"],["730","challenging","(困難だが)やりがいのある"],["730","endeavor","努力、試み 努力する"],["730","inspiring","やる気が出るような、活気づける"],["730","remarkable","驚くべき、注目すべき"],["730","measure","対策、手段 測定する、評価する"],["730","struggle","奮闘する"],["730","wage","賃金"],["730","adapt","適応する、適応させる、改作する"],["730","ambitious","意欲的な、野心的な"],["730","capable","能力がある"],["730","consequence","(～が招いた)結果"],["730","impose","課す、負わせる、強制する"],["730","latter","後者"],["730","output","生産高、生産量"],["730","proudly","誇らしげに、堂々と"],["730","stable","安定した"],["730","transition","移行、転身"],["730","consent","同意"],["730","dependable","信頼できる"],["730","diligent","勤勉な、まじめな"],["730","illustrate","(例や図表を使って)説明する"],["730","independently","単独で、独立して"],["730","mission","使命、ミッション"],["730","moderate","ほどほどの、適度な"],["730","outlook","見通し、モノの見方"],["730","precisely","正確に"],["730","concentrated","集中的な、濃縮された"],["730","ample","十分な、あり余るほどの"],["730","asset","財産、役立つ人やモノ"],["730","controversial","議論を引き起こす、議論の的になる"],["730","disappointing","期待外れの、がっかりさせるような"],["730","instrumental","重要な役割を果たす"],["730","interruption","中断"],["730","perspective","観点、見方、考え方"],["730","scope","範囲、余地"],["730","speculation","推測、推量"],["730","supplement","補う 付録、付記、栄養補助食品"],["730","understaffed","人手不足の"],["730","rarely","めったに～しない、まれに"],["730","caution","注意、警告 注意する、警告する"],["730","legislation","法律、法制化"],["730","logical","妥当な、論理的な、筋の通った"],["860","lumber","材木、製材"],["860","reverse","反対の"],["860","voluntary","自主的な、任意の"],["860","contractor","請負業者、契約業者"],["860","on-site","社内の、現場の その場で"],["860","comprehensive","総合的な、包括的な"],["860","confidential","機密の、秘密の"],["860","expertise","専門知識"],["860","premier","最高の、第一位の"],["860","souvenir","土産物"],["860","rafting","(いかだやゴムボートでの)川下り"],["860","compartment","一区画"],["860","fabric","生地、織物"],["860","spacious","広々とした、ゆったりした"],["860","upgrade","改良、アップグレード 改良する"],["860","showcase","披露する お披露目の場、ショーケース"],["860","commuter","通勤者"],["860","enhance","向上させる、強化する"],["860","freight","貨物、輸送、輸送料 輸送する"],["860","nominate","(候補として)推薦する、ノミネートする"],["860","discontinued","(製造・販売が)終了した"],["860","mentoring","メンター制度"],["860","personalized","個人に合わせた、名前入りの"],["860","pharmacy","薬局"],["860","excerpt","抜粋、引用"],["860","publicize","宣伝する"],["860","tuition","授業料"],["860","compliance","(法律・規則等の)順守"],["860","clarify","はっきりさせる、明確にする"],["860","municipal","市の、市営の"],["860","respectively","それぞれ"],["860","durable","耐久性がある、丈夫な"],["860","landmark","名所、目印、重要な出来事"],["860","portfolio","作品集、有価証券一覧"],["860","recipient","受取人、受賞者"],["860","prototype","試作品、原型"],["860","transit","輸送"],["860","verify","確認する、検証する、認証する"],["860","managerial","管理職の、経営上の"],["860","culinary","料理の"],["860","attire","服装"],["860","reimburse","払い戻す"],["860","courteous","礼儀正しい"],["860","furnished","家具付きの"],["860","knowledgeable","知識が豊富な"],["860","craftspeople","職人"],["860","delete","削除する"],["860","emerging","新たに現れた、新興の"],["860","enroll","登録する、入会する、入学する"],["860","proficiency","熟達、スキルの高さ、高い能力"],["860","scenic","眺めがいい、景色の"],["860","state-of-the-art","最新式の、最先端の"],["860","cuisine","料理"],["860","acclaimed","絶賛されている"],["860","certified","有資格の、公認の"],["860","medication","薬"],["860","overview","概略、概況"],["860","resistant","耐えられる、抵抗力のある"],["860","superb","素晴らしい"],["860","array","大量、多数"],["860","informative","有益な"],["860","nationwide","全国的な 全国的に"],["860","outdated","時代遅れの"],["860","shareholder","株主"],["860","voucher","引換券"],["860","adjacent","隣接した"],["860","correspondence","(手紙やメールでの)やり取り"],["860","detergent","洗剤"],["860","duration","継続期間"],["860","functional","機能を果たせる、機能的な"],["860","hands-on","実地の、実用的な"],["860","intensive","集中的な"],["860","last-minute","土壇場の、間際になっての"],["860","thrilled","とてもわくわくして、とても興奮して"],["860","spectacular","壮観な、目を見張るほどの"],["860","entrepreneur","起業家"],["860","introductory","入門の、最初の、お試しの"],["860","minimize","最小限に抑える、最小化する"],["860","prestigious","権威のある、誉れ高い"],["860","screening","上映、検査"],["860","amenity","生活を便利に(楽しく)するもの"],["860","lengthy","長期にわたる、冗長な"],["860","compensate","補償する"],["860","misplace","紛失する、置き忘れる"],["860","notable","注目すべき、有名な"],["860","subsidiary","子会社"],["860","authentic","本物の"],["860","designated","指定された、指名された"],["860","disruption","混乱、妨げ"],["860","fragile","壊れやすい、はかない"],["860","ongoing","進行中の、続いている"],["860","periodical","定期刊行物"],["860","plumber","配管工"],["860","incur","(損失や罰金等を)受ける"],["860","oversee","監督する"],["860","retrieve","(PCから情報を)取り出す、取り戻す"],["860","reunion","同窓会、再会"],["860","rigorous","厳格な、厳密な"],["860","specification","仕様(書)"],["860","tentative","仮の"],["860","tutorial","指導書、個別指導"],["860","apprentice","見習い、実習生"],["860","bid","入札 入札する"],["860","discard","捨てる"],["860","outing","外出、お出かけ"],["860","overwhelmingly","圧倒的に"],["860","proceeds","収益"],["860","refrain","差し控える"],["860","inclement","荒れ模様の"],["860","novice","初心者"],["860","activate","使えるようにする、始動させる"],["860","anecdote","逸話"],["860","collaboration","協力、協同"],["860","commemorate","(記念日や人を)祝う、記念する"],["860","duplicate","複製の 複製 複製を取る"],["860","intermission","休憩時間"],["860","fertilizer","肥料"],["860","proofread","校正する"],["860","solicit","求める、懇願する"],["860","unveil","披露する、公表する"],["860","applicable","適用される、あてはまる"],["860","commend","ほめる"],["860","complement","合う、補完する"],["860","incentive","動機付け、やる気を起こさせるもの"],["860","incorporate","取り入れる、組み込む"],["860","lapse","失効する、うっかりミスをする 過失"],["860","picturesque","絵のように美しい"],["860","prospective","見込みのある、将来の"],["860","simplify","簡素化する、単純にする"],["860","surpass","超える"],["860","surplus","余分な 余り"],["860","withstand","耐える"],["860","advocate","提唱者、支持者 提唱する"],["860","aspiring","～志望の、～になろうとする"],["860","assorted","詰め合わせの"],["860","credentials","資格、経歴、資質"],["860","interoffice","社内の、オフィス間の"],["860","malfunction","故障 故障する"],["860","mutually","互いに、相互に"],["860","periodically","定期的に"],["860","copyright","著作権"],["860","nutritious","栄養のある"],["860","obstruct","(通路や視界を)ふさぐ、さえぎる"],["860","abundant","豊富な、十分な"],["860","agreeable","快適な、フレンドリーな、合意可能な"],["860","compromise","妥協、妥協点 妥協する"],["860","continuous","途切れない、絶え間のない"],["860","dominant","支配的な、圧倒的な"],["860","exhausted","疲れ切った"],["860","fierce","熾烈(しれつ)な"],["860","prosperous","繁栄している、裕福な"],["860","quote","提示価格、引用 価格を提示する"],["860","reluctant","気乗りしない、渋っている"],["860","remedy","改善策、治療薬 改善する"],["860","solely","唯一、一人で、単独で"],["860","vital","不可欠な、非常に重要な"],["860","revitalize","再活性化する、復興する"],["860","commence","始まる"],["860","countless","数えきれないほどの、無数の"],["860","devise","考案する、立案する"],["860","execute","実行する"],["860","foster","促進する、養う"],["860","initiate","始める"],["860","insight","洞察、洞察力"],["860","misleading","誤解を招く恐れのある"],["860","precaution","予防策、予防措置"],["860","transparent","透明の"],["860","coincide","同時に起こる"],["860","concise","簡潔な"],["860","delegation","代表団、(権限等の)委譲"],["860","diagnosis","診断"],["860","enforce","施行する、実行する、強制する"],["860","hypothesis","仮説"],["860","predecessor","前任者、前機種"],["860","prominently","目立って、傑出して"],["860","adoption","採用"],["860","accelerate","加速させる、拍車をかける"],["860","adhere","(規則や法律等に)忠実に従う、接着する"],["860","allocate","割り当てる"],["860","appraisal","査定、評価"],["860","compile","取りまとめる、編集する"],["860","conform","(規則や周囲の状況等に)合わせる、一致する"],["860","constraint","制約"],["860","distraction","気を散らすもの、妨げになるもの"],["860","facilitate","容易にする、促進する"],["860","integral","不可欠の"],["860","interact","交流する"],["860","persistence","粘り強さ"],["860","quota","ノルマ、割り当て"],["860","congested","渋滞した"],["860","deduct","控除する"],["860","embrace","積極的に受け入れる、快諾する"],["860","synthetic","合成の"],["860","terminate","終わらせる"],["860","detect","見つける、検知する"],["860","patiently","根気よく、我慢強く"],["860","ratio","比率"],["860","dietary","食事の"],["860","intentionally","意図的に"],["860","persuasive","説得力のある"],["990","subsequent","その次の、その後の"],["990","thoughtfully","深く考えて、思慮深く、配慮して"],["990","abridged","要約された、短縮された"],["990","carpool","相乗りする 相乗り"],["990","compatible","相性が良い、互換性がある、共存できる"],["990","endorse","推薦する、支持する、裏書きする"],["990","explicit","明白な、明確な"],["990","keenly","痛烈に、鋭く"],["990","plaque","盾"],["990","dilute","薄める"],["990","exempt","免除された 免除する"],["990","centerpiece","中心に置かれる装飾品、中心になるもの"],["990","oversight","見落とし、手落ち、監視"],["990","privileged","光栄な"],["990","recur","再発する"],["990","skeptical","懐疑的な、疑い深い"],["990","sustainable","環境に優しい"],["990","artifact","工芸品、手工品"],["990","keynote","基調となる 基調"],["990","breathtaking","息をのむほどの、驚くべき"],["990","cubicle","個別の作業スペース"],["990","outage","機能停止期間、供給停止期間"],["990","perishable","傷みやすい、腐りやすい"],["990","avid","熱心な、熱烈な"],["990","detour","回り道 遠回りをする"],["990","expedite","早める、促進させる"],["990","vicinity","近所、近辺"],["990","affiliated","提携した、関連のある"],["990","definitive","決定版の、最終的な"],["990","demolish","(建物を)解体する、取り壊す"],["990","feasible","実現可能な"],["990","inaugural","最初の、初開催の"],["990","installment","分割払いの1回分"],["990","redeemable","(現金や商品と)交換可能な"],["990","streamline","合理化する、簡略化する"],["990","insulation","防音、断熱、防音材"],["990","intact","傷がない"],["990","occupancy","(ホテル等の)占有、占有人数"],["990","turnover","離職率"],["990","unanimous","満場一致の"],["990","deteriorate","悪化する"],["990","sturdy","頑丈な、丈夫な"],["990","adverse","よくない、不利な"],["990","bearer","(小切手等の)持参人"],["990","unprecedented","前例のない"],["990","botanical","植物の、植物学の"],["990","commensurate","釣り合った、比例した、見合った"],["990","consecutive","連続した"],["990","deliberation","熟考"],["990","discreetly","分別を持って、思慮深く"],["990","entail","必要とする、～を伴う"],["990","fluctuation","変動"],["990","foremost","最高の、トップの"],["990","imperative","急を要する、非常に重要な"],["990","mandatory","義務の、強制の"],["990","meticulously","細心の注意を払って、几帳面に"],["990","outreach","福祉活動、支援活動"],["990","tenure","在職期間"],["990","versatile","多才な"],["990","alleviate","和らげる、軽減する"],["990","exemplary","模範的な"],["990","gala","祝祭、祭り"],["990","mural","壁画"],["990","proprietor","オーナー、所有者"],["990","stagnant","停滞した"],["990","stringent","非常に厳しい"],["990","testimonial","推薦文、推薦の声"],["990","turnout","参加者数、来場者数"],["990","waive","(権利や条件を)放棄する、適用しない"],["990","faucet","蛇口"],["990","amendment","改正、修正"],["990","anonymous","匿名の"],["990","fraud","詐欺"],["990","liable","法的責任がある"],["990","considerate","思いやりのある、配慮して"],["990","consolidate","統合する"],["990","vigorous","活気のある、精力的な"],["990","retreat","研修旅行"],["990","custodian","管理人、守衛"],["990","forge","築く、構築する"],["990","impending","間近に迫った、差し迫った"],["990","itemize","項目別にする"],["990","liaison","連絡係、連絡"],["990","objectionable","不快な、気に障る"],["990","repave","再舗装する"],["990","shortcoming","欠点、短所"],["990","viable","実行可能な"],["990","memorabilia","記念品、思い出の品"],["990","deplete","使い果たす、激減させる"],["990","jeopardy","危機、危険"],["990","nominal","ほんのわずかの"],["990","deviate","それる"],["990","forfeit","没収される、剥奪される 罰金"],["990","bolster","強化する、補強する、鼓舞する"],["990","optimal","ベストの、最適な"],["990","purveyor","供給業者、販売業者"],["990","raffle","福引"],["990","ventilation","換気、風通し"],["990","unwavering","ゆるがない、断固とした"],["990","exponentially","加速度的に、指数関数的に"],["extra_dept","board of directors","役員(会)"],["extra_dept","accounting department","経理部"],["extra_dept","marketing department","マーケティング部"],["extra_dept","human resources department","人事部"],["extra_dept","personnel department","人事部"],["extra_dept","administrative department","管理部"],["extra_dept","legal department","法務部"],["extra_dept","sales department","営業部"],["extra_dept","technology department","技術部"],["extra_dept","security department","保安部"],["extra_dept","purchasing department","購買部"],["extra_dept","payroll department","給与部"],["extra_dept","public relations department","広報部"],["extra_dept","advertising department","宣伝部"],["extra_dept","general affairs department","総務部"],["extra_job","plumber","配管工"],["extra_job","mechanic","機械工"],["extra_job","carpenter","大工"],["extra_job","welder","溶接工"],["extra_job","electrician","電気屋"],["extra_job","civil engineer","土木技師"],["extra_job","dentist","歯科医"],["extra_job","surgeon","外科医"],["extra_job","pharmacist","薬剤師"],["extra_job","veterinarian","獣医 (略 vet)"],["extra_job","bakery","パン屋"],["extra_job","florist","花屋"],["extra_job","cleaner's","クリーニング店"],["extra_job","locksmith","鍵屋"],["extra_job","moving company","引っ越し業者"],["extra_job","hardware store","ホームセンター"],["extra_job","printer","印刷業者"],["extra_job","courier","宅配業者"],["extra_job","real estate agency","不動産屋"],["extra_job","accountant","会計士"],["extra_job","auditor","会計監査官"],["extra_job","anthropologist","人類学者"],["extra_job","biologist","生物学者"],["extra_job","botanist","植物学者"],["extra_job","scientist","科学者"],["extra_job","chemist","化学者"],["extra_job","historian","歴史学者"],["extra_job","lawyer / attorney","弁護士"],["extra_job","professor","教授"],["extra_job","paralegal","弁護士補助員"],["extra_job","journalist","ジャーナリスト"],["extra_job","announcer","アナウンサー"],["extra_job","host","司会者"],["extra_job","correspondent","特派員"],["extra_job","editor","編集者"],["extra_job","proofreader","校正者"],["extra_job","novelist","小説家"],["extra_job","librarian","図書館員"],["extra_job","flight attendant","フライトアテンダント"],["extra_job","travel agent","旅行業者"],["extra_job","tour guide","ツアーガイド"],["extra_job","concierge","コンシェルジュ"],["extra_job","housekeeping","客室係"],["extra_job","conductor","車掌・指揮者"],["extra_job","operator","オペレーター"],["extra_job","architect","建築家"],["extra_job","photographer","写真家"],["extra_job","choreographer","振付師"],["extra_job","actor","俳優"],["extra_job","actress","女優"],["extra_job","curator","学芸員"],["extra_job","receptionist","受付"],["extra_job","secretary","秘書"],["extra_job","spokesperson","広報担当者"],["extra_job","ambassador","大使"],["extra_job","security guard","警備員"],["extra_job","cashier","レジ係"],["extra_major","accounting","会計学"],["extra_major","architecture","建築学"],["extra_major","astronomy","天文学"],["extra_major","biology","生物学"],["extra_major","chemistry","化学"],["extra_major","ecology","生態学"],["extra_major","economics","経済学"],["extra_major","education","教育学"],["extra_major","engineering","工学"],["extra_major","fine arts","芸術"],["extra_major","history","歴史学"],["extra_major","journalism","ジャーナリズム"],["extra_major","law","法学"],["extra_major","linguistics","言語学"],["extra_major","literature","文学"],["extra_major","mathematics","数学"],["extra_major","medicine","医学"],["extra_major","philosophy","哲学"],["extra_major","physics","物理学"],["extra_major","psychology","心理学"],["extra_major","robotics","ロボット工学"],["extra_major","sociology","社会学"],["extra_prep","due to","～が理由で"],["extra_prep","owing to","～が理由で"],["extra_prep","despite","～にもかかわらず"],["extra_prep","in spite of","～にもかかわらず"],["extra_prep","notwithstanding","～にもかかわらず"],["extra_prep","given","～を考慮に入れると"],["extra_prep","in light of","～を考慮に入れると"],["extra_prep","in the event of","～の場合"],["extra_prep","in addition to","～に加えて"],["extra_prep","except for","～を除いて"],["extra_prep","regardless of","～とは無関係に"],["extra_prep","instead of","～の代わりに"],["extra_conj","whereas","一方で"],["extra_conj","whether","～であろうと、～かどうか"],["extra_conj","as soon as","～するとすぐに"],["extra_conj","once","いったん～したら"],["extra_conj","unless","～しない限り"],["extra_conj","now that","今はもう～なので"],["extra_conj","so that","～するように"],["extra_conj","in order that","～するように"],["extra_conj","although","～にもかかわらず"],["extra_conj","though","～にもかかわらず"],["extra_conj","even though","～にもかかわらず"],["extra_conj","even if","たとえ～でも"],["extra_conj","provided that","～するという条件でのみ"],["extra_conj","as long as","～する限り"],["extra_conj","in case","～するといけないので"],["extra_conj","given that","～を考慮すると"],["extra_conj","in the event that","～した場合"],["extra_conj","insofar as","～する限りにおいて"],["extra_conj","inasmuch as","～する限りにおいて、～するので"],["extra_adv","therefore","したがって"],["extra_adv","however","しかしながら"],["extra_adv","nevertheless","それにもかかわらず"],["extra_adv","moreover","その上"],["extra_adv","furthermore","さらに"],["extra_adv","consequently","結果として"],["extra_adv","thereby","そうすることで"],["extra_adv","thus","このようにして"],["extra_adv","meanwhile","その間"]];
+
+/**
+ * TOEIC 金フレ 1134 完全マスター Pro - アプリケーションロジック
+ */
+
+// LocalStorage State
+const STORAGE_KEY = 'toeic_kinfre_pro_master_storage_v4';
+const STREAK_KEY = 'toeic_kinfre_streak_v4';
+let userStats = {};
+
+function loadUserStats() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    userStats = raw ? JSON.parse(raw) : {};
+  } catch {
+    userStats = {};
+  }
+}
+loadUserStats();
+
+function saveUserStats() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(userStats));
+  } catch {}
+}
+
+function getWordData(word) {
+  if (!userStats[word]) {
+    userStats[word] = { learned: false, mistakes: 0, bookmarked: false };
+  }
+  return userStats[word];
+}
+
+// Streak Tracking
+function getStreakData() {
+  try {
+    const today = new Date().toISOString().slice(0, 10);
+    const raw = localStorage.getItem(STREAK_KEY);
+    if (!raw) {
+      return { streak: 1, lastDate: today, todayCount: 0 };
+    }
+    const data = JSON.parse(raw);
+    if (data.lastDate !== today) {
+      const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+      const isConsecutive = data.lastDate === yesterday;
+      const updated = {
+        streak: isConsecutive ? data.streak + 1 : 1,
+        lastDate: today,
+        todayCount: 0
+      };
+      localStorage.setItem(STREAK_KEY, JSON.stringify(updated));
+      return updated;
+    }
+    return data;
+  } catch {
+    return { streak: 1, lastDate: new Date().toISOString().slice(0, 10), todayCount: 0 };
+  }
+}
+
+function recordLearnedToday() {
+  try {
+    const data = getStreakData();
+    data.todayCount = (data.todayCount || 0) + 1;
+    localStorage.setItem(STREAK_KEY, JSON.stringify(data));
+    updateStreakUI();
+  } catch {}
+}
+
+function updateStreakUI() {
+  const data = getStreakData();
+  const el = document.getElementById('streakDaysText');
+  if (el) el.innerText = `${data.streak}日連続`;
+}
+
+// App Core State
+let currentLevel = '600';
+let currentPart = '0';
+let currentTab = 'card';
+let currentQueueFilter = 'unlearned'; // 'unlearned' | 'mistakes' | 'bookmarked' | 'all'
+let currentQueue = [];
+let currentCardIndex = 0;
+let isFlipped = false;
+let isEnFront = true;
+let isAutoPlaying = false;
+let autoPlayTimer = null;
+let soundEnabled = true;
+
+// Web Audio API Sound Synthesizer
+let audioCtx = null;
+function getAudioContext() {
+  try {
+    if (!audioCtx) {
+      const AudioClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioClass) audioCtx = new AudioClass();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  } catch {
+    return null;
+  }
+}
+
+function playSuccessChime() {
+  if (!soundEnabled) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+  try {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.08);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.25);
+  } catch {}
+}
+
+function playErrorTone() {
+  if (!soundEnabled) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+  try {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(220, ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(160, ctx.currentTime + 0.18);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.2);
+  } catch {}
+}
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  const btn = document.getElementById('soundToggleBtn');
+  btn.innerText = soundEnabled ? '🔊' : '🔇';
+  showToast(soundEnabled ? '効果音: ON' : '効果音: OFF');
+}
+
+// Category Label Helper
+function getCategoryShortLabel(code) {
+  if (code === '600') return '600点';
+  if (code === '730') return '730点';
+  if (code === '860') return '860点';
+  if (code === '990') return '990点';
+  if (code.startsWith('extra_')) {
+    const sub = code.replace('extra_', '');
+    const map = { dept: '部署', job: '職業', major: '専攻', prep: '前置詞', conj: '接続詞', adv: '接続副詞' };
+    return map[sub] || '付録';
+  }
+  return code;
+}
+
+// Speech Synthesis
+function speakWord(rawWord) {
+  if (!('speechSynthesis' in window)) {
+    showToast('音声再生に非対応の環境です');
+    return;
+  }
+  try {
+    const cleanWord = rawWord.split('/')[0].replace(/[\(\)]/g, '').trim();
+    window.speechSynthesis.cancel();
+    const ut = new SpeechSynthesisUtterance(cleanWord);
+    ut.lang = 'en-US';
+    ut.rate = 0.95;
+    window.speechSynthesis.speak(ut);
+  } catch {}
+}
+
+function playCurrentAudio() {
+  if (currentQueue.length > 0 && currentQueue[currentCardIndex]) {
+    speakWord(currentQueue[currentCardIndex][1]);
+  }
+}
+
+// Section Parts
+function getPartsForLevel(lvl) {
+  if (lvl === '600') {
+    return [
+      { id: '0', label: 'Part 1 (1〜50語)' },
+      { id: '1', label: 'Part 2 (51〜100語)' },
+      { id: '2', label: 'Part 3 (101〜150語)' },
+      { id: '3', label: 'Part 4 (151〜200語)' },
+      { id: '4', label: 'Part 5 (201〜250語)' },
+      { id: '5', label: 'Part 6 (251〜300語)' },
+      { id: '6', label: 'Part 7 (301〜350語)' },
+      { id: '7', label: 'Part 8 (351〜400語)' },
+      { id: 'all', label: '⭐ 600点全400語まとめ' }
+    ];
+  } else if (lvl === '730') {
+    return [
+      { id: '0', label: 'Part 1 (1〜50語)' },
+      { id: '1', label: 'Part 2 (51〜100語)' },
+      { id: '2', label: 'Part 3 (101〜150語)' },
+      { id: '3', label: 'Part 4 (151〜200語)' },
+      { id: '4', label: 'Part 5 (201〜250語)' },
+      { id: '5', label: 'Part 6 (251〜300語)' },
+      { id: 'all', label: '⭐ 730点全300語まとめ' }
+    ];
+  } else if (lvl === '860') {
+    return [
+      { id: '0', label: 'Part 1 (1〜50語)' },
+      { id: '1', label: 'Part 2 (51〜100語)' },
+      { id: '2', label: 'Part 3 (101〜150語)' },
+      { id: '3', label: 'Part 4 (151〜200語)' },
+      { id: 'all', label: '⭐ 860点全200語まとめ' }
+    ];
+  } else if (lvl === '990') {
+    return [
+      { id: '0', label: 'Part 1 (1〜50語)' },
+      { id: '1', label: 'Part 2 (51〜100語)' },
+      { id: 'all', label: '⭐ 990点全100語まとめ' }
+    ];
+  } else if (lvl === 'extra') {
+    return [
+      { id: 'dept', label: '🏢 主な部署名 (15項目)' },
+      { id: 'job', label: '👷 主な職業 (57項目)' },
+      { id: 'major', label: '🎓 主な専攻・学問名 (22項目)' },
+      { id: 'prep', label: '🔗 押さえておきたい前置詞 (12項目)' },
+      { id: 'conj', label: '🔀 押さえておきたい接続詞 (19項目)' },
+      { id: 'adv', label: '⏩ 押さえておきたい接続副詞 (9項目)' },
+      { id: 'all', label: '⭐ 重要付録 全134項目まとめ' }
+    ];
+  } else if (lvl === 'weakness') {
+    return [{ id: 'all_mistakes', label: '⚠️ ミスした全単語の総特訓' }];
+  } else if (lvl === 'bookmarks') {
+    return [{ id: 'all_bookmarks', label: '⭐ ブックマーク登録単語' }];
+  }
+  return [];
+}
+
+function getBaseSectionList() {
+  if (currentLevel === 'weakness') {
+    return MASTER_DATA.filter(item => getWordData(item[1]).mistakes > 0);
+  }
+  if (currentLevel === 'bookmarks') {
+    return MASTER_DATA.filter(item => getWordData(item[1]).bookmarked);
+  }
+  if (currentLevel !== 'extra') {
+    const fullLevelList = MASTER_DATA.filter(item => item[0] === currentLevel);
+    if (currentPart === 'all') return fullLevelList;
+    const pIndex = parseInt(currentPart, 10);
+    return fullLevelList.slice(pIndex * 50, (pIndex + 1) * 50);
+  } else {
+    if (currentPart === 'all') {
+      return MASTER_DATA.filter(item => item[0].startsWith('extra_'));
+    }
+    return MASTER_DATA.filter(item => item[0] === 'extra_' + currentPart);
+  }
+}
+
+function refreshQueue() {
+  const baseList = getBaseSectionList();
+  const totalCount = baseList.length;
+
+  const unlearnedList = baseList.filter(item => !getWordData(item[1]).learned);
+  const mistakesList = baseList.filter(item => getWordData(item[1]).mistakes > 0);
+  const bookmarkList = baseList.filter(item => getWordData(item[1]).bookmarked);
+
+  document.getElementById('unlearnedQueueCount').innerText = unlearnedList.length;
+  document.getElementById('mistakeQueueCount').innerText = mistakesList.length;
+  document.getElementById('bookmarkQueueCount').innerText = bookmarkList.length;
+  document.getElementById('totalQueueCount').innerText = totalCount;
+
+  if (currentQueueFilter === 'unlearned') {
+    currentQueue = [...unlearnedList];
+  } else if (currentQueueFilter === 'mistakes') {
+    currentQueue = [...mistakesList];
+  } else if (currentQueueFilter === 'bookmarked') {
+    currentQueue = [...bookmarkList];
+  } else {
+    currentQueue = [...baseList];
+  }
+
+  const learnedCount = totalCount - unlearnedList.length;
+  const pct = totalCount > 0 ? Math.round((learnedCount / totalCount) * 100) : 0;
+  document.getElementById('sectionProgressText').innerText = `進捗: ${learnedCount} / ${totalCount} (${pct}%)`;
+  document.getElementById('sectionProgressBar').style.width = `${pct}%`;
+
+  // Global total progress
+  const totalAll = MASTER_DATA.length;
+  const learnedAll = MASTER_DATA.filter(item => getWordData(item[1]).learned).length;
+  const globalPct = Math.round((learnedAll / totalAll) * 100);
+  document.getElementById('globalProgressPct').innerText = `${globalPct}%`;
+
+  if (currentCardIndex >= currentQueue.length) {
+    currentCardIndex = Math.max(0, currentQueue.length - 1);
+  }
+
+  renderCurrentCard();
+  renderCurrentSpell();
+  if (currentTab === 'list') renderWordList();
+  if (currentTab === 'analytics') renderAnalytics();
+}
+
+function setQueueFilter(filterType) {
+  currentQueueFilter = filterType;
+  ['unlearned', 'mistakes', 'bookmarked', 'all'].forEach(f => {
+    const btn = document.getElementById(`btnFilter${f.charAt(0).toUpperCase() + f.slice(1)}`);
+    if (f === filterType) {
+      btn.className = 'px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 font-black shadow-xs transition-all cursor-pointer';
+    } else {
+      btn.className = 'px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition-all cursor-pointer';
+    }
+  });
+  refreshQueue();
+}
+
+// 1. FLASHCARD LOGIC
+function renderCurrentCard() {
+  const cardInner = document.getElementById('cardInner');
+  const overlay = document.getElementById('cardCompletedOverlay');
+  isFlipped = false;
+  cardInner.classList.remove('card-flipped');
+
+  if (currentQueue.length === 0) {
+    overlay.classList.remove('hidden');
+    document.getElementById('cardCounterText').innerText = '完了 0 / 0';
+    if (typeof confetti === 'function') confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+    return;
+  }
+  overlay.classList.add('hidden');
+
+  const item = currentQueue[currentCardIndex];
+  const wData = getWordData(item[1]);
+
+  document.getElementById('cardIndexBadge').innerText = `#${currentCardIndex + 1}`;
+  document.getElementById('cardCounterText').innerText = `単語 ${currentCardIndex + 1} / ${currentQueue.length}`;
+
+  const frontWord = isEnFront ? item[1] : item[2];
+  const backWord = isEnFront ? item[2] : item[1];
+
+  document.getElementById('cardWordText').innerText = frontWord;
+  document.getElementById('cardWordSubText').innerText = isEnFront ? item[1] : '';
+  document.getElementById('cardMeaningText').innerText = backWord;
+
+  document.getElementById('cardFrontHintText').innerText = isEnFront ? '👆 タップで日本語訳を表示' : '👆 タップで英単語を表示';
+  document.getElementById('cardBackHeaderLabel').innerText = isEnFront ? '✨ 日本語訳・語義' : '✨ 英単語';
+
+  const catLabel = getCategoryShortLabel(item[0]);
+  document.getElementById('cardCategoryBadge').innerText = catLabel;
+  document.getElementById('cardCategoryBadgeBack').innerText = catLabel;
+
+  // Mistakes
+  const mistakeBadge = document.getElementById('cardMistakeBadge');
+  if (wData.mistakes > 0) {
+    document.getElementById('cardMistakeCount').innerText = wData.mistakes;
+    mistakeBadge.classList.remove('hidden');
+  } else {
+    mistakeBadge.classList.add('hidden');
+  }
+
+  // Bookmark star
+  const starBtn = document.getElementById('cardBookmarkBtn');
+  starBtn.innerText = wData.bookmarked ? '⭐' : '☆';
+  starBtn.className = wData.bookmarked ? 'p-1 rounded-lg text-amber-400 font-bold' : 'p-1 rounded-lg text-slate-400 hover:text-amber-400';
+}
+
+function toggleCardFlip() {
+  const cardInner = document.getElementById('cardInner');
+  isFlipped = !isFlipped;
+  if (isFlipped) cardInner.classList.add('card-flipped');
+  else cardInner.classList.remove('card-flipped');
+}
+
+function toggleCardFrontMode() {
+  isEnFront = !isEnFront;
+  document.getElementById('cardFrontModeBtn').innerText = isEnFront ? '英 ➔ 日' : '日 ➔ 英';
+  renderCurrentCard();
+}
+
+function toggleAutoPlay() {
+  isAutoPlaying = !isAutoPlaying;
+  const btn = document.getElementById('btnAutoPlay');
+  if (isAutoPlaying) {
+    btn.className = 'flex items-center gap-1 text-[11px] px-2.5 py-0.5 rounded-md font-bold bg-amber-500 text-slate-950 animate-pulse cursor-pointer';
+    btn.innerText = '⏸ 自動再生中';
+    autoPlayTimer = setInterval(() => {
+      const cardInner = document.getElementById('cardInner');
+      if (!isFlipped) {
+        toggleCardFlip();
+        playCurrentAudio();
+      } else {
+        navigateCard(1);
+      }
+    }, 2800);
+  } else {
+    btn.className = 'flex items-center gap-1 text-[11px] px-2.5 py-0.5 rounded-md font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 cursor-pointer';
+    btn.innerText = '▶ 自動再生';
+    if (autoPlayTimer) clearInterval(autoPlayTimer);
+  }
+}
+
+function navigateCard(delta) {
+  if (currentQueue.length === 0) return;
+  currentCardIndex = (currentCardIndex + delta + currentQueue.length) % currentQueue.length;
+  renderCurrentCard();
+}
+
+function shuffleCurrentQueue() {
+  if (currentQueue.length <= 1) return;
+  for (let i = currentQueue.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [currentQueue[i], currentQueue[j]] = [currentQueue[j], currentQueue[i]];
+  }
+  currentCardIndex = 0;
+  renderCurrentCard();
+  showToast('シャッフルしました 🔀');
+}
+
+function toggleCurrentBookmark() {
+  if (currentQueue.length === 0) return;
+  const item = currentQueue[currentCardIndex];
+  const wData = getWordData(item[1]);
+  wData.bookmarked = !wData.bookmarked;
+  saveUserStats();
+  renderCurrentCard();
+  showToast(wData.bookmarked ? `「${item[1]}」をブックマークしました ⭐` : `「${item[1]}」のブックマークを解除しました`);
+}
+
+function handleMarkCard(learned) {
+  if (currentQueue.length === 0) return;
+  const item = currentQueue[currentCardIndex];
+  const wData = getWordData(item[1]);
+
+  if (learned) {
+    wData.learned = true;
+    saveUserStats();
+    playSuccessChime();
+    recordLearnedToday();
+    showToast(`「${item[1]}」を習得済みにしました ✅`);
+
+    if (currentQueueFilter === 'unlearned') {
+      currentQueue.splice(currentCardIndex, 1);
+      if (currentCardIndex >= currentQueue.length) {
+        currentCardIndex = Math.max(0, currentQueue.length - 1);
+      }
+      refreshQueue();
+      return;
+    }
+  } else {
+    wData.mistakes = (wData.mistakes || 0) + 1;
+    saveUserStats();
+    playErrorTone();
+    showToast(`ミス回数を加算しました (累計: ${wData.mistakes}回) ⚠️`);
+  }
+
+  navigateCard(1);
+  refreshQueue();
+}
+
+// 2. 4-CHOICE QUIZ LOGIC
+let quizQuestions = [];
+let quizIndex = 0;
+let quizScore = 0;
+let quizActiveQuestion = null;
+let quizMistakes = [];
+let quizMode = 'en_to_ja'; // 'en_to_ja' | 'ja_to_en' | 'listening'
+let quizTimerLimit = 0; // 0 = unlimited
+let quizTimerInterval = null;
+let quizTimeLeft = 0;
+
+function setQuizMode(mode) {
+  quizMode = mode;
+  ['en_to_ja', 'ja_to_en', 'listening'].forEach(m => {
+    const btn = document.getElementById('qmode_' + m);
+    if (m === mode) {
+      btn.className = 'py-2 px-2 rounded-xl text-xs font-bold border border-amber-400 bg-amber-500 text-slate-950 shadow-sm text-center cursor-pointer';
+    } else {
+      btn.className = 'py-2 px-2 rounded-xl text-xs font-bold border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 text-center cursor-pointer';
+    }
+  });
+}
+
+function setQuizTimer(sec) {
+  quizTimerLimit = sec;
+  [0, 10, 8, 5].forEach(s => {
+    const btn = document.getElementById('qtime_' + s);
+    if (s === sec) {
+      btn.className = 'py-1.5 rounded-lg text-xs font-black border border-amber-400 bg-amber-500 text-slate-950 text-center cursor-pointer';
+    } else {
+      btn.className = 'py-1.5 rounded-lg text-xs font-bold border border-slate-700 bg-slate-800 text-slate-400 hover:text-white text-center cursor-pointer';
+    }
+  });
+}
+
+function resetQuizScreen() {
+  if (quizTimerInterval) clearInterval(quizTimerInterval);
+  document.getElementById('quizIntro').classList.remove('hidden');
+  document.getElementById('quizActive').classList.add('hidden');
+  document.getElementById('quizResult').classList.add('hidden');
+}
+
+function startQuiz(countLimit = 30, customPool = null) {
+  const pool = customPool ? [...customPool] : [...getBaseSectionList()];
+  if (pool.length === 0) {
+    showToast('出題対象の単語がありません');
+    return;
+  }
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+
+  quizQuestions = countLimit > 0 && countLimit < pool.length ? pool.slice(0, countLimit) : pool;
+  quizIndex = 0;
+  quizScore = 0;
+  quizMistakes = [];
+
+  document.getElementById('quizIntro').classList.add('hidden');
+  document.getElementById('quizResult').classList.add('hidden');
+  document.getElementById('quizActive').classList.remove('hidden');
+
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion() {
+  if (quizTimerInterval) clearInterval(quizTimerInterval);
+  quizActiveQuestion = quizQuestions[quizIndex];
+  const total = quizQuestions.length;
+
+  document.getElementById('quizProgressNum').innerText = `第 ${quizIndex + 1} / ${total} 問`;
+  document.getElementById('quizCurrentScore').innerText = `スコア: ${quizScore}`;
+  document.getElementById('quizProgressBar').style.width = `${(quizIndex / total) * 100}%`;
+
+  const wordDisplay = document.getElementById('quizWordDisplay');
+  const listeningBox = document.getElementById('quizListeningBox');
+  const instructionBadge = document.getElementById('quizInstructionBadge');
+
+  if (quizMode === 'listening') {
+    instructionBadge.innerText = '音声を聞いて意味を選んでください';
+    wordDisplay.classList.add('hidden');
+    listeningBox.classList.remove('hidden');
+    speakWord(quizActiveQuestion[1]);
+  } else if (quizMode === 'ja_to_en') {
+    instructionBadge.innerText = '日本語に合う正しい英単語を選んでください';
+    wordDisplay.classList.remove('hidden');
+    listeningBox.classList.add('hidden');
+    wordDisplay.innerText = quizActiveQuestion[2];
+  } else {
+    instructionBadge.innerText = '英単語に合う正しい日本語訳を選んでください';
+    wordDisplay.classList.remove('hidden');
+    listeningBox.classList.add('hidden');
+    wordDisplay.innerText = quizActiveQuestion[1];
+    speakWord(quizActiveQuestion[1]);
+  }
+
+  // Timer logic
+  const timerBadge = document.getElementById('quizTimerBadge');
+  if (quizTimerLimit > 0) {
+    quizTimeLeft = quizTimerLimit;
+    timerBadge.classList.remove('hidden');
+    timerBadge.innerText = `⏱ ${quizTimeLeft}s`;
+    quizTimerInterval = setInterval(() => {
+      quizTimeLeft--;
+      timerBadge.innerText = `⏱ ${quizTimeLeft}s`;
+      if (quizTimeLeft <= 0) {
+        clearInterval(quizTimerInterval);
+        handleQuizTimeout();
+      }
+    }, 1000);
+  } else {
+    timerBadge.classList.add('hidden');
+  }
+
+  // Generate 4 options
+  const isTargetEnglish = quizMode === 'ja_to_en';
+  const correctAnswer = isTargetEnglish ? quizActiveQuestion[1] : quizActiveQuestion[2];
+  const options = [correctAnswer];
+  const pool = MASTER_DATA.filter(item => (isTargetEnglish ? item[1] : item[2]) !== correctAnswer);
+
+  while (options.length < 4 && pool.length > 0) {
+    const randItem = pool[Math.floor(Math.random() * pool.length)];
+    const optVal = isTargetEnglish ? randItem[1] : randItem[2];
+    if (!options.includes(optVal)) options.push(optVal);
+  }
+  for (let i = options.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [options[i], options[j]] = [options[j], options[i]];
+  }
+
+  const container = document.getElementById('quizOptionsContainer');
+  container.innerHTML = '';
+  options.forEach((optText, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'w-full text-left py-3.5 px-4 rounded-2xl border-2 border-slate-700 bg-slate-800 text-slate-200 hover:border-amber-400 font-bold text-sm sm:text-base transition-all flex items-center justify-between group active:scale-[0.99] cursor-pointer';
+    btn.innerHTML = `
+      <div class="flex items-center gap-3 min-w-0">
+        <span class="w-6 h-6 rounded-lg bg-slate-900 text-slate-400 flex items-center justify-center text-xs font-mono shrink-0">${i + 1}</span>
+        <span class="truncate">${optText}</span>
+      </div>
+      <span class="text-xs text-slate-400">➔</span>
+    `;
+    btn.onclick = () => selectQuizAnswer(optText, correctAnswer, btn);
+    container.appendChild(btn);
+  });
+}
+
+function handleQuizTimeout() {
+  const container = document.getElementById('quizOptionsContainer');
+  const allButtons = container.querySelectorAll('button');
+  allButtons.forEach(b => (b.disabled = true));
+
+  const isTargetEnglish = quizMode === 'ja_to_en';
+  const correctAnswer = isTargetEnglish ? quizActiveQuestion[1] : quizActiveQuestion[2];
+  const wData = getWordData(quizActiveQuestion[1]);
+  wData.mistakes = (wData.mistakes || 0) + 1;
+  quizMistakes.push(quizActiveQuestion);
+  playErrorTone();
+
+  allButtons.forEach(b => {
+    if (b.innerText.includes(correctAnswer)) {
+      b.className = 'w-full text-left py-3.5 px-4 rounded-2xl border-2 border-emerald-500 bg-emerald-950/70 text-emerald-200 font-black';
+    }
+  });
+  saveUserStats();
+  setTimeout(() => advanceQuiz(), 950);
+}
+
+function selectQuizAnswer(selected, correct, selectedBtn) {
+  if (quizTimerInterval) clearInterval(quizTimerInterval);
+  const allButtons = document.querySelectorAll('#quizOptionsContainer button');
+  allButtons.forEach(b => (b.disabled = true));
+
+  const wData = getWordData(quizActiveQuestion[1]);
+
+  if (selected === correct) {
+    selectedBtn.className = 'w-full text-left py-3.5 px-4 rounded-2xl border-2 border-emerald-500 bg-emerald-950/70 text-emerald-200 font-black shadow-lg shadow-emerald-500/20';
+    quizScore++;
+    wData.learned = true;
+    playSuccessChime();
+    recordLearnedToday();
+  } else {
+    selectedBtn.className = 'w-full text-left py-3.5 px-4 rounded-2xl border-2 border-rose-500 bg-rose-950/70 text-rose-200 font-bold';
+    wData.mistakes = (wData.mistakes || 0) + 1;
+    quizMistakes.push(quizActiveQuestion);
+    playErrorTone();
+
+    allButtons.forEach(b => {
+      if (b.innerText.includes(correct)) {
+        b.className = 'w-full text-left py-3.5 px-4 rounded-2xl border-2 border-emerald-500 bg-emerald-950/70 text-emerald-200 font-black';
+      }
+    });
+  }
+  saveUserStats();
+  setTimeout(() => advanceQuiz(), 950);
+}
+
+function advanceQuiz() {
+  quizIndex++;
+  if (quizIndex < quizQuestions.length) {
+    renderQuizQuestion();
+  } else {
+    showQuizSummary();
+  }
+}
+
+function playQuizWordAudio() {
+  if (quizActiveQuestion) speakWord(quizActiveQuestion[1]);
+}
+
+function abandonQuiz() {
+  resetQuizScreen();
+  showToast('テストを中断しました');
+}
+
+function showQuizSummary() {
+  if (quizTimerInterval) clearInterval(quizTimerInterval);
+  document.getElementById('quizActive').classList.add('hidden');
+  document.getElementById('quizResult').classList.remove('hidden');
+
+  const total = quizQuestions.length;
+  const rate = total > 0 ? Math.round((quizScore / total) * 100) : 0;
+  document.getElementById('quizResultScore').innerHTML = `${quizScore} <span class="text-xl text-slate-500">/ ${total}</span>`;
+  document.getElementById('quizAccuracy').innerText = `正答率: ${rate}%`;
+
+  let feedback = '反復を継続してスコアアップを目指しましょう！';
+  if (rate === 100) feedback = 'パーフェクト達成！金フレ完全制覇レベルです！🎉';
+  else if (rate >= 80) feedback = '素晴らしい実力です！間違えた単語だけ再テストで補強しましょう。';
+  else if (rate <= 50) feedback = 'まずはカード暗記で基本単語のキューを消化してみましょう！';
+  document.getElementById('quizComment').innerText = feedback;
+
+  const btnRetry = document.getElementById('btnRetryMistakes');
+  document.getElementById('quizMistakeCountSpan').innerText = quizMistakes.length;
+  const mistakeDetail = document.getElementById('quizMistakesDetail');
+  const mistakeList = document.getElementById('quizMistakeList');
+  mistakeList.innerHTML = '';
+
+  if (quizMistakes.length > 0) {
+    btnRetry.classList.remove('hidden');
+    mistakeDetail.classList.remove('hidden');
+
+    quizMistakes.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'flex items-center justify-between p-2.5 rounded-xl bg-rose-950/40 border border-rose-900/60';
+      row.innerHTML = `
+        <div class="min-w-0 pr-2">
+          <span class="font-extrabold text-white mr-2">${item[1]}</span>
+          <span class="text-slate-400 text-[11px]">${item[2]}</span>
+        </div>
+        <button onclick="speakWord('${item[1]}')" class="p-1 rounded-lg text-slate-400 hover:text-amber-400 hover:bg-slate-800">🔊</button>
+      `;
+      mistakeList.appendChild(row);
+    });
+  } else {
+    btnRetry.classList.add('hidden');
+    mistakeDetail.classList.add('hidden');
+    if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+  }
+
+  refreshQueue();
+}
+
+function retryQuizMistakes() {
+  if (quizMistakes.length === 0) return;
+  startQuiz(0, [...quizMistakes]);
+  showToast('間違えた問題の特訓を開始します！⚠️');
+}
+
+// 3. SPELLING DRILL LOGIC
+let spellStreak = 0;
+function renderCurrentSpell() {
+  const fb = document.getElementById('spellFeedback');
+  fb.innerText = '';
+  const input = document.getElementById('spellInput');
+  input.value = '';
+
+  if (currentQueue.length === 0) {
+    document.getElementById('spellCounterText').innerText = '完了 0 / 0';
+    document.getElementById('spellMeaningDisplay').innerText = 'すべての単語を習得しました！';
+    input.disabled = true;
+    return;
+  }
+  input.disabled = false;
+  const item = currentQueue[currentCardIndex];
+  document.getElementById('spellCounterText').innerText = `単語 ${currentCardIndex + 1} / ${currentQueue.length}`;
+  document.getElementById('spellMeaningDisplay').innerText = item[2];
+  document.getElementById('spellStreakCount').innerText = spellStreak;
+}
+
+function navigateSpell(delta) {
+  if (currentQueue.length === 0) return;
+  currentCardIndex = (currentCardIndex + delta + currentQueue.length) % currentQueue.length;
+  renderCurrentSpell();
+}
+
+function giveSpellHint() {
+  if (currentQueue.length === 0) return;
+  const word = currentQueue[currentCardIndex][1];
+  const cleanWord = word.split('/')[0].replace(/[\(\)]/g, '').trim().toLowerCase();
+  const input = document.getElementById('spellInput');
+  const curVal = input.value.toLowerCase();
+  if (curVal.length < cleanWord.length) {
+    input.value = cleanWord.slice(0, curVal.length + 1);
+  }
+  input.focus();
+}
+
+function checkSpelling() {
+  if (currentQueue.length === 0) return;
+  const item = currentQueue[currentCardIndex];
+  const input = document.getElementById('spellInput');
+  const entered = input.value.trim().toLowerCase();
+  const targetVariants = item[1].toLowerCase().split('/').map(s => s.trim().replace(/[\(\)]/g, ''));
+  const fb = document.getElementById('spellFeedback');
+  const wData = getWordData(item[1]);
+
+  const isCorrect = targetVariants.some(v => v === entered);
+
+  if (isCorrect) {
+    fb.innerHTML = `<span class="text-emerald-400 font-black">⭕ 正解！ Excellent! [${item[1]}]</span>`;
+    spellStreak++;
+    wData.learned = true;
+    saveUserStats();
+    playSuccessChime();
+    speakWord(item[1]);
+    recordLearnedToday();
+    setTimeout(() => {
+      navigateSpell(1);
+      refreshQueue();
+    }, 1000);
+  } else {
+    fb.innerHTML = `<span class="text-rose-400 font-bold">❌ 正解: ${item[1]}</span>`;
+    spellStreak = 0;
+    wData.mistakes = (wData.mistakes || 0) + 1;
+    saveUserStats();
+    playErrorTone();
+  }
+  document.getElementById('spellStreakCount').innerText = spellStreak;
+}
+
+// 4. SPEED ATTACK LOGIC (45s)
+let speedPlaying = false;
+let speedTimeLeft = 45;
+let speedTimer = null;
+let speedScore = 0;
+let speedCombos = 0;
+let speedMaxCombo = 0;
+let currentSpeedItem = null;
+
+function startSpeedGame() {
+  const pool = getBaseSectionList();
+  if (pool.length === 0) {
+    showToast('出題対象の単語がありません');
+    return;
+  }
+  speedScore = 0;
+  speedCombos = 0;
+  speedMaxCombo = 0;
+  speedTimeLeft = 45;
+  speedPlaying = true;
+
+  document.getElementById('speedIntro').classList.add('hidden');
+  document.getElementById('speedResult').classList.add('hidden');
+  document.getElementById('speedActive').classList.remove('hidden');
+
+  document.getElementById('speedScoreText').innerText = '0';
+  document.getElementById('speedTimerText').innerText = '⏱ 45s';
+  document.getElementById('speedComboBadge').classList.add('hidden');
+
+  nextSpeedItem();
+
+  if (speedTimer) clearInterval(speedTimer);
+  speedTimer = setInterval(() => {
+    speedTimeLeft--;
+    document.getElementById('speedTimerText').innerText = `⏱ ${speedTimeLeft}s`;
+    if (speedTimeLeft <= 0) {
+      clearInterval(speedTimer);
+      finishSpeedGame();
+    }
+  }, 1000);
+}
+
+function nextSpeedItem() {
+  const pool = getBaseSectionList();
+  if (pool.length === 0) return;
+  const wordItem = pool[Math.floor(Math.random() * pool.length)];
+  const isMatch = Math.random() > 0.5;
+
+  let displayedMeaning = wordItem[2];
+  if (!isMatch) {
+    const others = MASTER_DATA.filter(w => w[2] !== wordItem[2]);
+    if (others.length > 0) {
+      displayedMeaning = others[Math.floor(Math.random() * others.length)][2];
+    }
+  }
+
+  currentSpeedItem = { wordItem, displayedMeaning, isMatch };
+  document.getElementById('speedWordText').innerText = wordItem[1];
+  document.getElementById('speedMeaningText').innerText = displayedMeaning;
+}
+
+function handleSpeedAnswer(userGuessedMatch) {
+  if (!speedPlaying || !currentSpeedItem) return;
+
+  const correct = userGuessedMatch === currentSpeedItem.isMatch;
+  const wData = getWordData(currentSpeedItem.wordItem[1]);
+
+  if (correct) {
+    speedScore++;
+    speedCombos++;
+    if (speedCombos > speedMaxCombo) speedMaxCombo = speedCombos;
+    wData.learned = true;
+    playSuccessChime();
+    recordLearnedToday();
+
+    if (speedCombos > 1) {
+      const badge = document.getElementById('speedComboBadge');
+      badge.classList.remove('hidden');
+      document.getElementById('speedComboCount').innerText = speedCombos;
+    }
+  } else {
+    speedCombos = 0;
+    wData.mistakes = (wData.mistakes || 0) + 1;
+    document.getElementById('speedComboBadge').classList.add('hidden');
+    playErrorTone();
+  }
+  saveUserStats();
+  document.getElementById('speedScoreText').innerText = speedScore;
+  nextSpeedItem();
+}
+
+function finishSpeedGame() {
+  speedPlaying = false;
+  document.getElementById('speedActive').classList.add('hidden');
+  document.getElementById('speedResult').classList.remove('hidden');
+
+  document.getElementById('speedFinalScore').innerText = speedScore;
+  document.getElementById('speedMaxCombo').innerText = speedMaxCombo;
+
+  if (typeof confetti === 'function') confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+  refreshQueue();
+}
+
+// 5. VOCABULARY LIST LOGIC
+let listLevelFilter = 'all';
+let listStatusFilter = 'all';
+
+function setListLevelFilter(lvl) {
+  listLevelFilter = lvl;
+  ['all', '600', '730', '860', '990', 'extra'].forEach(l => {
+    const btn = document.getElementById('btnListLvl_' + l);
+    btn.className = l === lvl
+      ? 'px-2.5 py-1 rounded-lg font-bold bg-amber-500 text-slate-950 font-black cursor-pointer'
+      : 'px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-400 hover:text-white border border-slate-700 cursor-pointer';
+  });
+  renderWordList();
+}
+
+function setListStatusFilter(stat) {
+  listStatusFilter = stat;
+  ['all', 'unlearned', 'learned', 'mistakes', 'bookmarked'].forEach(s => {
+    const btn = document.getElementById('btnListStat_' + s);
+    btn.className = s === stat
+      ? 'px-2 py-1 rounded-lg font-bold text-[11px] bg-slate-200 text-slate-950 font-black cursor-pointer'
+      : 'px-2 py-1 rounded-lg font-bold text-[11px] bg-slate-800/80 text-slate-400 hover:text-white border border-slate-700/60 cursor-pointer';
+  });
+  renderWordList();
+}
+
+function renderWordList() {
+  const query = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+  const container = document.getElementById('wordListItemsContainer');
+  container.innerHTML = '';
+
+  const list = MASTER_DATA.filter((item, index) => {
+    if (listLevelFilter !== 'all') {
+      if (listLevelFilter === 'extra') {
+        if (!item[0].startsWith('extra_')) return false;
+      } else if (item[0] !== listLevelFilter) {
+        return false;
+      }
+    }
+
+    const wData = getWordData(item[1]);
+    if (listStatusFilter === 'unlearned' && wData.learned) return false;
+    if (listStatusFilter === 'learned' && !wData.learned) return false;
+    if (listStatusFilter === 'mistakes' && (!wData.mistakes || wData.mistakes === 0)) return false;
+    if (listStatusFilter === 'bookmarked' && !wData.bookmarked) return false;
+
+    if (query) {
+      const matchW = item[1].toLowerCase().includes(query);
+      const matchM = item[2].includes(query);
+      if (!matchW && !matchM) return false;
+    }
+    return true;
+  });
+
+  document.getElementById('listResultCount').innerText = `表示件数: ${list.length} / ${MASTER_DATA.length} 件`;
+  document.getElementById('searchClearBtn').classList.toggle('hidden', !query);
+
+  if (list.length === 0) {
+    container.innerHTML = '<div class="text-center py-10 text-slate-500 text-sm">該当する単語が見つかりませんでした。</div>';
+    return;
+  }
+
+  list.forEach(item => {
+    const wData = getWordData(item[1]);
+    const div = document.createElement('div');
+    div.className = `p-3 rounded-2xl border transition-all flex items-center justify-between gap-3 ${
+      wData.learned ? 'bg-emerald-950/20 border-emerald-900/60' : 'bg-slate-800/60 border-slate-700/70 hover:border-slate-600'
+    }`;
+
+    div.innerHTML = `
+      <div class="min-w-0 flex-1">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="font-black text-white text-base sm:text-lg tracking-tight">${item[1]}</span>
+          <span class="text-[10px] font-bold px-1.5 py-0.5 rounded border border-slate-700 bg-slate-800 text-slate-300">${getCategoryShortLabel(item[0])}</span>
+          ${wData.mistakes > 0 ? `<span class="text-[10px] font-bold bg-rose-500/20 border border-rose-500/30 text-rose-300 px-1.5 py-0.5 rounded">ミス: ${wData.mistakes}回</span>` : ''}
+        </div>
+        <p class="text-xs sm:text-sm text-slate-300 mt-1 leading-snug">${item[2]}</p>
+      </div>
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button onclick="toggleListBookmark('${item[1]}')" class="p-2 rounded-xl text-slate-400 hover:text-amber-400 cursor-pointer">
+          ${wData.bookmarked ? '⭐' : '☆'}
+        </button>
+        <button onclick="speakWord('${item[1]}')" class="p-2 rounded-xl text-slate-400 hover:text-amber-400 hover:bg-slate-700 cursor-pointer" title="発音を聞く">🔊</button>
+        <button onclick="toggleListLearned('${item[1]}')" class="text-xs font-black px-3 py-1.5 rounded-xl border transition-all cursor-pointer ${
+          wData.learned ? 'bg-emerald-600 text-white border-emerald-500 shadow-sm' : 'bg-slate-700/80 text-slate-300 border-slate-600 hover:bg-slate-700'
+        }">
+          ${wData.learned ? '習得済' : '覚えた'}
+        </button>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function toggleListBookmark(word) {
+  const wData = getWordData(word);
+  wData.bookmarked = !wData.bookmarked;
+  saveUserStats();
+  renderWordList();
+  showToast(wData.bookmarked ? `「${word}」をブックマークしました ⭐` : `「${word}」のブックマークを解除しました`);
+}
+
+function toggleListLearned(word) {
+  const wData = getWordData(word);
+  wData.learned = !wData.learned;
+  if (wData.learned) recordLearnedToday();
+  saveUserStats();
+  refreshQueue();
+  renderWordList();
+  showToast(`「${word}」を${wData.learned ? '習得済' : '未習得'}に切り替えました`);
+}
+
+function handleSearchInput() {
+  renderWordList();
+}
+
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  renderWordList();
+}
+
+// 6. ANALYTICS LOGIC
+function renderAnalytics() {
+  const calcLevel = filterFn => {
+    const list = MASTER_DATA.filter(item => filterFn(item[0]));
+    const total = list.length;
+    const learned = list.filter(item => getWordData(item[1]).learned).length;
+    const pct = total > 0 ? Math.round((learned / total) * 100) : 0;
+    return { total, learned, pct };
+  };
+
+  const s600 = calcLevel(l => l === '600');
+  const s730 = calcLevel(l => l === '730');
+  const s860 = calcLevel(l => l === '860');
+  const s990 = calcLevel(l => l === '990');
+  const sExtra = calcLevel(l => l.startsWith('extra_'));
+
+  const totalAll = MASTER_DATA.length;
+  const learnedAll = MASTER_DATA.filter(item => getWordData(item[1]).learned).length;
+  const mistakesAll = MASTER_DATA.filter(item => (getWordData(item[1]).mistakes || 0) > 0).length;
+  const bookmarkedAll = MASTER_DATA.filter(item => getWordData(item[1]).bookmarked).length;
+  const overallPct = Math.round((learnedAll / totalAll) * 100);
+
+  document.getElementById('statOverallPct').innerText = `${overallPct}%`;
+  document.getElementById('statLearnedRatio').innerText = `${learnedAll} / ${totalAll}語`;
+
+  const streakData = getStreakData();
+  document.getElementById('statTodayCount').innerText = streakData.todayCount || 0;
+  document.getElementById('statStreakDays').innerText = `継続ストリーク: ${streakData.streak}日`;
+  document.getElementById('statMistakesTotal').innerText = mistakesAll;
+  document.getElementById('statBookmarksTotal').innerText = bookmarkedAll;
+
+  // Prediction
+  let pred = '600点 レベル到達見込み ✨';
+  if (s600.pct >= 85 && s730.pct >= 80 && s860.pct >= 75 && s990.pct >= 70) {
+    pred = '900点〜990点 満点射程圏内 🔥';
+  } else if (s600.pct >= 85 && s730.pct >= 80 && s860.pct >= 70) {
+    pred = '860点 レベル到達見込み 🚀';
+  } else if (s600.pct >= 80 && s730.pct >= 70) {
+    pred = '730点 レベル到達見込み 🎯';
+  }
+  document.getElementById('statScorePredictionText').innerText = pred;
+
+  // Progress Bars
+  const barsContainer = document.getElementById('analyticsBarsContainer');
+  const levels = [
+    { label: '600点 レベル', stats: s600, color: 'from-emerald-500 to-teal-400' },
+    { label: '730点 レベル', stats: s730, color: 'from-sky-500 to-cyan-400' },
+    { label: '860点 レベル', stats: s860, color: 'from-amber-500 to-yellow-400' },
+    { label: '990点 レベル', stats: s990, color: 'from-rose-500 to-pink-400' },
+    { label: '重要付録 (134項目)', stats: sExtra, color: 'from-purple-500 to-indigo-400' }
+  ];
+
+  barsContainer.innerHTML = levels
+    .map(
+      lvl => `
+    <div class="space-y-1">
+      <div class="flex items-center justify-between text-xs font-bold">
+        <span class="text-slate-300">${lvl.label}</span>
+        <span class="text-white font-mono">${lvl.stats.learned} / ${lvl.stats.total} (${lvl.stats.pct}%)</span>
+      </div>
+      <div class="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-700/50">
+        <div class="bg-gradient-to-r ${lvl.color} h-full transition-all duration-500" style="width: ${lvl.stats.pct}%"></div>
+      </div>
+    </div>
+  `
+    )
+    .join('');
+
+  // Weakest 10 words
+  const weakWords = MASTER_DATA.filter(item => (getWordData(item[1]).mistakes || 0) > 0)
+    .sort((a, b) => (getWordData(b[1]).mistakes || 0) - (getWordData(a[1]).mistakes || 0))
+    .slice(0, 10);
+
+  const weakContainer = document.getElementById('analyticsWeakList');
+  weakContainer.innerHTML = '';
+  if (weakWords.length === 0) {
+    document.getElementById('analyticsWeakestBox').classList.add('hidden');
+  } else {
+    document.getElementById('analyticsWeakestBox').classList.remove('hidden');
+    weakWords.forEach((item, i) => {
+      const wData = getWordData(item[1]);
+      const row = document.createElement('div');
+      row.className = 'flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-rose-900/40';
+      row.innerHTML = `
+        <div class="min-w-0 pr-2">
+          <span class="font-mono text-slate-500 mr-1">#${i + 1}</span>
+          <span class="font-extrabold text-white mr-2">${item[1]}</span>
+          <span class="text-slate-400 truncate block text-[11px]">${item[2]}</span>
+        </div>
+        <span class="bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[10px] font-black px-2 py-0.5 rounded-md shrink-0">
+          ${wData.mistakes}回ミス
+        </span>
+      `;
+      weakContainer.appendChild(row);
+    });
+  }
+}
+
+function startWeaknessFromAnalytics() {
+  currentLevel = 'weakness';
+  document.getElementById('levelSelect').value = 'weakness';
+  populatePartOptions();
+  switchTab('card');
+  refreshQueue();
+}
+
+// Navigation & Tab Switching
+function switchTab(tabId) {
+  currentTab = tabId;
+  ['card', 'quiz', 'spell', 'speed', 'list', 'analytics'].forEach(t => {
+    const view = document.getElementById(`view${t.charAt(0).toUpperCase() + t.slice(1)}`);
+    const btn = document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
+    if (t === tabId) {
+      view.classList.remove('hidden');
+      btn.className = 'flex-1 min-w-[72px] py-2 rounded-lg text-center transition-all bg-amber-500 text-slate-950 font-black shadow-md flex items-center justify-center gap-1 cursor-pointer';
+    } else {
+      view.classList.add('hidden');
+      btn.className = 'flex-1 min-w-[72px] py-2 rounded-lg text-center transition-all text-slate-400 hover:text-white flex items-center justify-center gap-1 cursor-pointer';
+    }
+  });
+
+  const subFilter = document.getElementById('subFilterRow');
+  const subBar = document.getElementById('subProgressBarRow');
+  if (tabId === 'analytics') {
+    subFilter.classList.add('hidden');
+    subBar.classList.add('hidden');
+  } else {
+    subFilter.classList.remove('hidden');
+    subBar.classList.remove('hidden');
+  }
+
+  if (tabId === 'card') renderCurrentCard();
+  if (tabId === 'spell') renderCurrentSpell();
+  if (tabId === 'quiz') resetQuizScreen();
+  if (tabId === 'list') renderWordList();
+  if (tabId === 'analytics') renderAnalytics();
+}
+
+function handleLevelChange() {
+  currentLevel = document.getElementById('levelSelect').value;
+  populatePartOptions();
+  refreshQueue();
+}
+
+function handlePartChange() {
+  currentPart = document.getElementById('partSelect').value;
+  currentCardIndex = 0;
+  refreshQueue();
+}
+
+function populatePartOptions() {
+  const partSelect = document.getElementById('partSelect');
+  partSelect.innerHTML = '';
+  const parts = getPartsForLevel(currentLevel);
+
+  parts.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.id;
+    opt.textContent = p.label;
+    partSelect.appendChild(opt);
+  });
+  currentPart = parts.length > 0 ? parts[0].id : '0';
+}
+
+function advanceToNextSection() {
+  const parts = getPartsForLevel(currentLevel);
+  const currentIndex = parts.findIndex(p => p.id === currentPart);
+  if (currentIndex !== -1 && currentIndex + 1 < parts.length - 1) {
+    currentPart = parts[currentIndex + 1].id;
+    document.getElementById('partSelect').value = currentPart;
+    refreshQueue();
+    showToast('次のPartへ進みました 🚀');
+  } else {
+    showToast('このレベルの全Partを修了しました！おめでとうございます！🎉');
+  }
+}
+
+// Backup & Transfer
+function openBackupModal() {
+  document.getElementById('backupModal').classList.remove('hidden');
+}
+
+function closeBackupModal() {
+  document.getElementById('backupModal').classList.add('hidden');
+}
+
+function copyTransferCode() {
+  try {
+    const payload = {
+      version: 'kinfre-v4',
+      timestamp: new Date().toISOString(),
+      stats: userStats
+    };
+    const jsonStr = JSON.stringify(payload);
+    const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+    navigator.clipboard.writeText(encoded);
+    showToast('引き継ぎコードをクリップボードにコピーしました！📋');
+  } catch {
+    showToast('コードのコピーに失敗しました');
+  }
+}
+
+function restoreFromTransferCode() {
+  const input = document.getElementById('transferCodeInput').value.trim();
+  if (!input) {
+    showToast('復元コードを入力してください');
+    return;
+  }
+  try {
+    const jsonStr = decodeURIComponent(escape(atob(input)));
+    const data = JSON.parse(jsonStr);
+    if (data && data.stats) {
+      userStats = data.stats;
+      saveUserStats();
+      refreshQueue();
+      showToast('学習データを完全に復元しました！🎉');
+      document.getElementById('transferCodeInput').value = '';
+      closeBackupModal();
+    } else {
+      showToast('無効な復元コードです');
+    }
+  } catch {
+    showToast('コードの解析に失敗しました。正しいコードか確認してください');
+  }
+}
+
+function exportBackupJson() {
+  const payload = {
+    version: 'kinfre-v4',
+    date: new Date().toLocaleDateString('ja-JP'),
+    stats: userStats
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `TOEIC_Kinfre_Backup_${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('バックアップJSONを書き出しました 💾');
+}
+
+function importBackupJson(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (parsed && parsed.stats) {
+        userStats = parsed.stats;
+        saveUserStats();
+        refreshQueue();
+        showToast('JSONファイルからデータを復元しました！');
+        closeBackupModal();
+      } else {
+        showToast('正しいバックアップファイルではありません');
+      }
+    } catch {
+      showToast('ファイルの読み込みに失敗しました');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+// Confirmation Modal (No window.alert/confirm)
+let modalCallback = null;
+function openModal(title, msg, callback) {
+  document.getElementById('modalTitle').innerText = title;
+  document.getElementById('modalMessage').innerText = msg;
+  modalCallback = callback;
+  document.getElementById('customModal').classList.remove('hidden');
+}
+
+function closeModal(result) {
+  document.getElementById('customModal').classList.add('hidden');
+  if (modalCallback) {
+    modalCallback(result);
+    modalCallback = null;
+  }
+}
+
+function confirmResetSectionModal() {
+  openModal(
+    'セクションのリセット',
+    'このセクションに含まれる単語の習得状態とミス回数をリセットしますか？未習得キューに全単語が復帰します。',
+    confirmed => {
+      if (confirmed) resetSectionStatus();
+    }
+  );
+}
+
+function resetSectionStatus() {
+  const list = getBaseSectionList();
+  list.forEach(item => {
+    delete userStats[item[1]];
+  });
+  saveUserStats();
+  currentCardIndex = 0;
+  refreshQueue();
+  showToast('セクションの学習データをリセットしました 🔄');
+}
+
+function confirmResetAllData() {
+  openModal(
+    '全データの初期化',
+    '全1,134単語の学習進捗、ミス回数、ブックマークを完全に初期化します。よろしいですか？',
+    confirmed => {
+      if (confirmed) {
+        userStats = {};
+        saveUserStats();
+        currentCardIndex = 0;
+        refreshQueue();
+        closeBackupModal();
+        showToast('全データを初期化しました');
+      }
+    }
+  );
+}
+
+// Toast
+let toastTimeout = null;
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastText').innerText = msg;
+  toast.style.opacity = '1';
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    toast.style.opacity = '0';
+  }, 2300);
+}
+
+// Keyboard Shortcuts
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+    if (e.target.id === 'spellInput' && e.key === 'Enter') {
+      e.preventDefault();
+      checkSpelling();
+    }
+    return;
+  }
+
+  if (currentTab === 'card') {
+    if (e.code === 'Space') {
+      e.preventDefault();
+      toggleCardFlip();
+    } else if (e.code === 'ArrowRight' || e.key === 'j') {
+      e.preventDefault();
+      navigateCard(1);
+    } else if (e.code === 'ArrowLeft' || e.key === 'k') {
+      e.preventDefault();
+      navigateCard(-1);
+    } else if (e.key === '1') {
+      e.preventDefault();
+      handleMarkCard(false);
+    } else if (e.key === '2') {
+      e.preventDefault();
+      playCurrentAudio();
+    } else if (e.key === '3') {
+      e.preventDefault();
+      handleMarkCard(true);
+    }
+  } else if (currentTab === 'speed' && speedPlaying) {
+    if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === '1') {
+      e.preventDefault();
+      handleSpeedAnswer(false);
+    } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === '2') {
+      e.preventDefault();
+      handleSpeedAnswer(true);
+    }
+  }
+});
+
+// Touch Swipe on Flashcard
+let touchStartX = 0;
+let touchEndX = 0;
+window.addEventListener('DOMContentLoaded', () => {
+  const cardEl = document.getElementById('cardInner');
+  if (cardEl) {
+    cardEl.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    cardEl.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 60) {
+        if (diff < 0) navigateCard(1);
+        else navigateCard(-1);
+      }
+    }, { passive: true });
+  }
+
+  populatePartOptions();
+  updateStreakUI();
+  refreshQueue();
+});
+
+</script>
+</body>
+</html>
