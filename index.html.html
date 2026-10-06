@@ -2105,21 +2105,6 @@ function confirmResetAllData() {
         showToast('全データを初期化しました');
       }
     }
-  );
-}
-
-// Toast
-let toastTimeout = null;
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  document.getElementById('toastText').innerText = msg;
-  toast.style.opacity = '1';
-  clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => {
-    toast.style.opacity = '0';
-  }, 2300);
-}
-
 // Keyboard Shortcuts
 document.addEventListener('keydown', e => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
@@ -2145,6 +2130,25 @@ document.addEventListener('keydown', e => {
       handleMarkCard(false);
     } else if (e.key === '2') {
       e.preventDefault();
+      playCurrentAudio();
+    } else if (e.key === '3') {
+      e.preventDefault();
+      handleMarkCard(true);
+    } else if (e.key === 'z' || e.key === 'Z' || e.code === 'Backspace') {
+      e.preventDefault();
+      window.undoLastCardAction();
+    }
+  } else if (currentTab === 'speed' && speedPlaying) {
+    if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === '1') {
+      e.preventDefault();
+      handleSpeedAnswer(false);
+    } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === '2') {
+      e.preventDefault();
+      handleSpeedAnswer(true);
+    }
+  }
+});
+
 // Touch Swipe on Flashcard
 let touchStartX = 0;
 let touchEndX = 0;
@@ -2196,7 +2200,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const last = undoStack.pop();
     const wData = getWordData(last.word);
 
-    // 状態を直前の数値に巻き戻す
     wData.learned = last.prevLearned;
     wData.mistakes = last.prevMistakes;
     saveUserStats();
@@ -2204,7 +2207,6 @@ window.addEventListener('DOMContentLoaded', () => {
     updateUndoBtnUI();
     refreshQueue();
 
-    // 戻した単語の位置へ復帰
     const restoreIdx = currentQueue.findIndex(item => item[1] === last.word);
     if (restoreIdx !== -1) {
       currentCardIndex = restoreIdx;
@@ -2231,7 +2233,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const list = getBaseSectionList();
     list.forEach(item => {
       const wData = getWordData(item[1]);
-      wData.learned = false; // 覚えた状態のみ解除（mistakesやbookmarkedはそのまま残す）
+      wData.learned = false;
     });
     saveUserStats();
     undoStack = [];
@@ -2246,7 +2248,6 @@ window.addEventListener('DOMContentLoaded', () => {
   window.renderCurrentCard = function() {
     const overlay = document.getElementById('cardCompletedOverlay');
     
-    // 単語が0件のとき（すべて覚えた、または苦手が0件のとき）
     if (!currentQueue || currentQueue.length === 0) {
       if (overlay) {
         overlay.classList.remove('hidden');
@@ -2305,19 +2306,24 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // キーボードショートカット (Z / Backspace)
-  window.addEventListener('keydown', function(e) {
-    if (currentTab === 'card' && (e.key === 'z' || e.key === 'Z' || e.code === 'Backspace')) {
-      if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
-        e.preventDefault();
-        window.undoLastCardAction();
-      }
-    }
-  });
-
   setTimeout(injectUndoBtn, 100);
 })();
 </script>
 </body>
 </html>
- 
+  );
+}
+
+// Toast
+let toastTimeout = null;
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastText').innerText = msg;
+  toast.style.opacity = '1';
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    toast.style.opacity = '0';
+  }, 2300);
+}
+
+
