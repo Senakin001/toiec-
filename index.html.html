@@ -2145,22 +2145,6 @@ document.addEventListener('keydown', e => {
       handleMarkCard(false);
     } else if (e.key === '2') {
       e.preventDefault();
-      playCurrentAudio();
-    } else if (e.key === '3') {
-      e.preventDefault();
-      handleMarkCard(true);
-    }
-  } else if (currentTab === 'speed' && speedPlaying) {
-    if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === '1') {
-      e.preventDefault();
-      handleSpeedAnswer(false);
-    } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === '2') {
-      e.preventDefault();
-      handleSpeedAnswer(true);
-    }
-  }
-});
-
 // Touch Swipe on Flashcard
 let touchStartX = 0;
 let touchEndX = 0;
@@ -2169,7 +2153,23 @@ window.addEventListener('DOMContentLoaded', () => {
   if (cardEl) {
     cardEl.addEventListener('touchstart', e => {
       touchStartX = e.changedTouches[0].screenX;
-      /* ==================== Pro版専用：完全修正コード ==================== */
+    }, { passive: true });
+    cardEl.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 60) {
+        if (diff < 0) navigateCard(1);
+        else navigateCard(-1);
+      }
+    }, { passive: true });
+  }
+
+  populatePartOptions();
+  updateStreakUI();
+  refreshQueue();
+});
+
+/* ==================== Pro版専用：完全修正コード ==================== */
 (function() {
   let undoStack = [];
 
@@ -2226,12 +2226,12 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ③ 【重要】ミス回数は保持し、「覚えた！」フラグだけを解除する安全なリセットに上書き
+  // ③ ミス回数を維持した安全なリセット
   window.resetSectionStatus = function() {
     const list = getBaseSectionList();
     list.forEach(item => {
       const wData = getWordData(item[1]);
-      wData.learned = false; // 覚えた状態のみ解除（mistakesやbookmarkedは一切消さない）
+      wData.learned = false; // 覚えた状態のみ解除（mistakesやbookmarkedはそのまま残す）
     });
     saveUserStats();
     undoStack = [];
@@ -2283,11 +2283,10 @@ window.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 通常時は元の関数を実行
     if (origRenderCurrentCard) origRenderCurrentCard();
   };
 
-  // ⑤ 「↩ 1つ前に戻る」ボタンを「わからない／覚えた！」ボタンのすぐ下に自動挿入
+  // ⑤ 「↩ 1つ前に戻る」ボタンを自動挿入
   function injectUndoBtn() {
     if (document.getElementById('proUndoBtn')) return;
     const viewCard = document.getElementById('viewCard');
@@ -2306,7 +2305,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // キーボードの [Z] や [Backspace] でもアンドゥ可能に
+  // キーボードショートカット (Z / Backspace)
   window.addEventListener('keydown', function(e) {
     if (currentTab === 'card' && (e.key === 'z' || e.key === 'Z' || e.code === 'Backspace')) {
       if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
@@ -2316,25 +2315,9 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 起動時にボタンを挿入
   setTimeout(injectUndoBtn, 100);
 })();
-  }, { passive: true });
-    cardEl.addEventListener('touchend', e => {
-      touchEndX = e.changedTouches[0].screenX;
-      const diff = touchEndX - touchStartX;
-      if (Math.abs(diff) > 60) {
-        if (diff < 0) navigateCard(1);
-        else navigateCard(-1);
-      }
-    }, { passive: true });
-  }
-
-  populatePartOptions();
-  updateStreakUI();
-  refreshQueue();
-});
-    
 </script>
 </body>
 </html>
+ 
