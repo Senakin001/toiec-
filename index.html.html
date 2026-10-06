@@ -2184,6 +2184,187 @@ window.addEventListener('DOMContentLoaded', () => {
   updateStreakUI();
   refreshQueue();
 });
+/* ==================== 改善機能の追加（ここから貼り付け） ==================== */
+(function() {
+  let historyStack = [];
+
+  // ① 「覚えた！」の処理をフックして履歴を保存
+  const origMarkLearned = window.markLearned;
+  window.markLearned = function() {
+    if (currentQueue && currentQueue.length > 0) {
+      const w = currentQueue[currentCardIndex];
+      historyStack.push({ type: 'learned', word: w, idx: currentCardIndex });
+      updateUndoUI();
+    }
+    if (origMarkLearned) origMarkLearned();
+  };
+
+  // ② 「まだ（ミス）」の処理をフックして履歴を保存
+  const origMarkWrong = window.markWrong;
+  window.markWrong = function() {
+    if (currentQueue && currentQueue.length > 0) {
+      const w = currentQueue[currentCardIndex];
+      historyStack.push({ type: 'wrong', word: w, prevCount: w.mistakes || 0, idx: currentCardIndex });
+      updateUndoUI();
+    }
+    if (origMarkWrong) origMarkWrong();
+  };
+
+  // ③ 1つ戻る（アンドゥ）実行処理
+  window.undoLastAction = function() {
+    if (historyStack.length === 0) return;
+    const last = historyStack.pop();
+
+    if (last.type === 'learned') {
+      last.word.learned = false;
+      delete userState.learned[last.word.id];
+      saveUserState();
+      if (currentFilter === 'unlearned') {
+        currentQueue.splice(last.idx, 0, last.word);
+        currentCardIndex = last.idx;
+      }
+    } else if (last.type === 'wrong') {
+      last.word.mistakes = last.prevCount;
+      if (last.prevCount === 0) {
+        delete userState.mistakes[last.word.id];
+      } else {
+        userState.mistakes[last.word.id] = last.prevCount;
+      }
+      saveUserState();
+      currentCardIndex = last.idx;
+    }
+
+    updateUndoUI();
+    renderCard();
+    if (typeof updateStatsTextOnly === 'function') updateStatsTextOnly();
+  };
+
+  function updateUndoUI() {
+    const btn = document.getElementById('btnUndoAppended');
+    if (btn) {
+      btn.disabled = historyStack.length === 0;
+      btn.style.opacity = historyStack.length === 0 ? '0.35' : '1';
+      btn.style.cursor = historyStack.length === 0 ? 'not-allowed' : 'pointer';
+    }
+  }
+
+  // ④ 苦手ゼロ時のフリーズ防止 ＆ 完了画面（ミスを残して解き直す）の上書き
+  window.renderCard = function() {
+    const flipper = document.getElementById('cardFlipper');
+    if (flipper) flipper.classList.remove('flipped');
+
+    const cardWrap = document.getElementById('cardStageWrap');
+    const completedWrap = document.getElementById('cardCompletedWrap');
+
+    // キューが空（全問覚えた、または苦手が0件）の場合
+    if (!currentQueue || currentQueue.length === 0) {
+      if (cardWrap) cardWrap.classList.add('hidden');
+      if (completedWrap) {
+        completedWrap.classList.remove('hidden');
+        const isMistakeMode = (currentSection === 'mistakes' || currentFilter === 'mistakes');
+
+        completedWrap.innerHTML = `
+          <h2 style="font-size:1.3rem; color:${isMistakeMode ? '#0284c7' : '#16a34a'}; margin-bottom:8px;">
+            ${isMistakeMode ? '🎉 苦手な単語はありません！' : '🎉 すべてマスターしました！'}
+          </h2>
+          <p style="font-size:0.85rem; color:#64748b; margin-bottom:16px;">
+            ${isMistakeMode ? 'ミス記録のある単語は0語です。順調に習得できています！' : 'このセクションの単語をすべて覚えました。'}
+          </p>
+          <div style="display:flex; flex-direction:column; gap:8px; max-width:280px; margin:0 auto;">
+            ${!isMistakeMode ? `
+              <button class="btn btn-voice" onclick="resetKeepMistakes()" style="padding:10px; font-size:0.85rem;">
+                🔄 ミス記録を残して最初から解き直す
+              </button>
+              <button class="btn btn-learned" onclick="nextPart()" style="padding:10px; font-size:0.85rem;">
+                次のPartへ進む ➔
+              </button>
+            ` : `
+              <button class="btn btn-voice" onclick="document.getElementById('sectionSelect').value='600'; onSectionChange();" style="padding:10px; font-size:0.85rem;">
+                600点レベルに戻る
+              </button>
+            `}
+          </div>
+        `;
+      }
+      return;
+    }
+
+    // 通常の単語カード表示
+    if (cardWrap) cardWrap.classList.remove('hidden');
+    if (completedWrap) completedWrap.classList.add('hidden');
+
+    const w = currentQueue[currentCardIndex];
+    if (!w) return;
+
+    let lvlText = w.level + "点";
+    const labelMap = { dept:'部署名', job:'職業', major:'専攻名', prep:'前置詞', conj:'接続詞', cadv:'接続副詞' };
+    if (labelMap[w.level]) lvlText = labelMap[w.level];
+
+    const cardBadge = document.getElementById('cardBadge');
+    if (cardBadge) cardBadge.innerText = `${lvlText} #${w.id}`;
+
+    const mistakeBadge = document.getElementById('cardMistakeBadge');
+    if (mistakeBadge) {
+      if (w.mistakes > 0) {
+        mistakeBadge.innerText = `⚠️ ミス: ${w.mistakes}回`;
+        mistakeBadge.classList.remove('hidden');
+      } else {
+        mistakeBadge.classList.add('hidden');
+      }
+    }
+
+    const front = document.getElementById('cardFrontText');
+    const back = document.getElementById('cardBackText');
+    if (front) front.innerText = w.word;
+    if (back) back.innerText = w.meaning;
+  };
+
+  // ⑤ ミス回数を残したまま「覚えた！」だけを解除する関数
+  window.resetKeepMistakes = function() {
+    if (!confirm("ミス回数の記録はそのまま残し、「覚えた！」の状態だけ解除して最初から解き直しますか？")) return;
+    allWords.forEach(w => {
+      let match = false;
+      if (currentSection === 'all') match = true;
+      else if (!isNaN(parseInt(currentSection)) && w.level === parseInt(currentSection)) match = true;
+      else if (w.level === currentSection) match = true;
+
+      if (match && (currentPart === 'all' || w.part === parseInt(currentPart))) {
+        w.learned = false;
+        delete userState.learned[w.id];
+      }
+    });
+    saveUserState();
+    historyStack = [];
+    updateUndoUI();
+    updateQueue();
+  };
+
+  // ⑥ 画面に「↩ 1つ戻る」ボタンを自動設置
+  function insertUndoBtn() {
+    const actionGrid = document.querySelector('.action-grid');
+    if (actionGrid && !document.getElementById('btnUndoAppended')) {
+      const btn = document.createElement('button');
+      btn.id = 'btnUndoAppended';
+      btn.innerHTML = '↩ 1つ前に戻る（直前の判定を取り消す）';
+      btn.style.cssText = 'width:100%; padding:9px; margin-bottom:8px; background:#e2e8f0; border:1px solid #cbd5e1; border-radius:8px; font-size:0.8rem; font-weight:700; color:#334155; opacity:0.35; cursor:not-allowed; transition:all 0.2s;';
+      btn.disabled = true;
+      btn.onclick = window.undoLastAction;
+      actionGrid.parentNode.insertBefore(btn, actionGrid.nextSibling);
+    }
+  }
+
+  // キーボードの [Z] や [Backspace] にも対応
+  window.addEventListener('keydown', function(e) {
+    if (currentMode === 'card' && (e.key === 'z' || e.key === 'Z' || e.code === 'Backspace')) {
+      if (document.activeElement.tagName !== 'INPUT') {
+        e.preventDefault();
+        window.undoLastAction();
+      }
+    }
+  });
+
+  insertUndoBtn();
+})();
 
 </script>
 </body>
