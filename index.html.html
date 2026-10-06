@@ -2169,111 +2169,103 @@ window.addEventListener('DOMContentLoaded', () => {
   if (cardEl) {
     cardEl.addEventListener('touchstart', e => {
       touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-    cardEl.addEventListener('touchend', e => {
-      touchEndX = e.changedTouches[0].screenX;
-      const diff = touchEndX - touchStartX;
-      if (Math.abs(diff) > 60) {
-        if (diff < 0) navigateCard(1);
-        else navigateCard(-1);
-      }
-    }, { passive: true });
-  }
-
-  populatePartOptions();
-  updateStreakUI();
-  refreshQueue();
-});
-/* ==================== Pro版専用：改善修正コード ==================== */
+      /* ==================== Pro版専用：完全修正コード ==================== */
 (function() {
-  // 1. アンドゥ（1つ戻る）の履歴スタック
-  let proUndoStack = [];
+  let undoStack = [];
 
-  // 判定処理（handleMarkCard）をフックして履歴を保存
+  // ① 判定処理（handleMarkCard）を監視して履歴を保存
   const origHandleMarkCard = window.handleMarkCard;
   window.handleMarkCard = function(learned) {
     if (currentQueue && currentQueue.length > 0 && currentQueue[currentCardIndex]) {
       const item = currentQueue[currentCardIndex];
       const wData = getWordData(item[1]);
-      proUndoStack.push({
+      undoStack.push({
         word: item[1],
         prevLearned: wData.learned,
         prevMistakes: wData.mistakes || 0,
-        idx: currentCardIndex
+        savedIndex: currentCardIndex
       });
-      updateUndoButtonUI();
+      updateUndoBtnUI();
     }
     if (origHandleMarkCard) origHandleMarkCard(learned);
   };
 
-  // 1つ戻る実行関数
+  // ② 1つ戻る（アンドゥ）実行処理
   window.undoLastCardAction = function() {
-    if (proUndoStack.length === 0) return;
-    const last = proUndoStack.pop();
+    if (undoStack.length === 0) return;
+    const last = undoStack.pop();
     const wData = getWordData(last.word);
 
-    // 状態を巻き戻す
+    // 状態を直前の数値に巻き戻す
     wData.learned = last.prevLearned;
     wData.mistakes = last.prevMistakes;
     saveUserStats();
 
-    updateUndoButtonUI();
+    updateUndoBtnUI();
     refreshQueue();
-    currentCardIndex = Math.min(last.idx, Math.max(0, currentQueue.length - 1));
+
+    // 戻した単語の位置へ復帰
+    const restoreIdx = currentQueue.findIndex(item => item[1] === last.word);
+    if (restoreIdx !== -1) {
+      currentCardIndex = restoreIdx;
+    } else {
+      currentCardIndex = Math.min(last.savedIndex, Math.max(0, currentQueue.length - 1));
+    }
+
     renderCurrentCard();
     showToast(`「${last.word}」の直前の判定を取り消しました ↩`);
   };
 
-  function updateUndoButtonUI() {
+  function updateUndoBtnUI() {
     const btn = document.getElementById('proUndoBtn');
     if (btn) {
-      const canUndo = proUndoStack.length > 0;
+      const canUndo = undoStack.length > 0;
       btn.disabled = !canUndo;
       btn.style.opacity = canUndo ? '1' : '0.35';
       btn.style.cursor = canUndo ? 'pointer' : 'not-allowed';
     }
   }
 
-  // 2. ミス回数は保持したまま「覚えた！」だけを解除する安全なリセットに上書き
+  // ③ 【重要】ミス回数は保持し、「覚えた！」フラグだけを解除する安全なリセットに上書き
   window.resetSectionStatus = function() {
     const list = getBaseSectionList();
     list.forEach(item => {
       const wData = getWordData(item[1]);
-      wData.learned = false; // 覚えた状態のみ解除（mistakesとbookmarkedはそのまま残す）
+      wData.learned = false; // 覚えた状態のみ解除（mistakesやbookmarkedは一切消さない）
     });
     saveUserStats();
-    proUndoStack = [];
-    updateUndoButtonUI();
+    undoStack = [];
+    updateUndoBtnUI();
     currentCardIndex = 0;
     refreshQueue();
-    showToast('ミス記録は維持したまま、単語を未習得に戻しました 🔄');
+    showToast('ミス記録を残したまま、未習得に戻しました 🔄');
   };
 
-  // 3. 苦手ゼロ時のフリーズ防止 ＆ 完了画面の最適化
+  // ④ 苦手ゼロ時のフリーズ防止 ＆ 完了画面の最適化
   const origRenderCurrentCard = window.renderCurrentCard;
   window.renderCurrentCard = function() {
     const overlay = document.getElementById('cardCompletedOverlay');
     
-    // キューが0件の場合
+    // 単語が0件のとき（すべて覚えた、または苦手が0件のとき）
     if (!currentQueue || currentQueue.length === 0) {
       if (overlay) {
         overlay.classList.remove('hidden');
-        const isWeakMode = (currentLevel === 'weakness' || currentQueueFilter === 'mistakes');
+        const isWeaknessMode = (currentLevel === 'weakness' || currentQueueFilter === 'mistakes');
         
         overlay.innerHTML = `
-          <div class="w-16 h-16 bg-gradient-to-br ${isWeakMode ? 'from-sky-400 to-blue-600' : 'from-amber-400 to-amber-600'} text-slate-950 rounded-3xl flex items-center justify-center text-3xl shadow-xl mb-3">
-            ${isWeakMode ? '✨' : '🎉'}
+          <div class="w-16 h-16 bg-gradient-to-br ${isWeaknessMode ? 'from-sky-400 to-blue-600' : 'from-amber-400 to-amber-600'} text-slate-950 rounded-3xl flex items-center justify-center text-3xl shadow-xl mb-3">
+            ${isWeaknessMode ? '✨' : '🎉'}
           </div>
           <h3 class="text-xl sm:text-2xl font-black text-white mb-1">
-            ${isWeakMode ? '苦手な単語はありません！' : 'セクション習得完了！'}
+            ${isWeaknessMode ? '苦手な単語はありません！' : 'セクション習得完了！'}
           </h3>
           <p class="text-xs text-slate-400 max-w-xs mb-5 leading-relaxed">
-            ${isWeakMode 
-              ? '現在ミス記録のある単語は0語です。ミスした単語が出ると自動でここに蓄積されます。' 
+            ${isWeaknessMode 
+              ? '現在ミス記録のある単語は0語です。間違えた単語が出ると自動で蓄積されます。' 
               : 'この区間の単語はすべて「覚えた！」に登録されました。'}
           </p>
           <div class="flex flex-col gap-2 w-full max-w-xs">
-            ${!isWeakMode ? `
+            ${!isWeaknessMode ? `
               <button onclick="resetSectionStatus()" class="w-full py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold text-xs border border-slate-700 transition-all cursor-pointer">
                 🔄 ミス記録を残して最初から解き直す
               </button>
@@ -2291,17 +2283,16 @@ window.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 通常時の描画は元の関数を実行
+    // 通常時は元の関数を実行
     if (origRenderCurrentCard) origRenderCurrentCard();
   };
 
-  // 4. 「↩ 1つ戻る」ボタンを画面の適切な位置（わからない／覚えたボタンの下）に自動生成
-  function injectUndoButton() {
+  // ⑤ 「↩ 1つ前に戻る」ボタンを「わからない／覚えた！」ボタンのすぐ下に自動挿入
+  function injectUndoBtn() {
     if (document.getElementById('proUndoBtn')) return;
     const viewCard = document.getElementById('viewCard');
     if (!viewCard) return;
 
-    // 「わからない / 覚えた！」のグリッドを探す
     const actionGrid = viewCard.querySelector('.grid.grid-cols-2');
     if (actionGrid) {
       const btn = document.createElement('button');
@@ -2315,7 +2306,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // キーボードショートカット（Zキー、Backspaceキー）
+  // キーボードの [Z] や [Backspace] でもアンドゥ可能に
   window.addEventListener('keydown', function(e) {
     if (currentTab === 'card' && (e.key === 'z' || e.key === 'Z' || e.code === 'Backspace')) {
       if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
@@ -2325,10 +2316,25 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 初期化実行
-  injectUndoButton();
+  // 起動時にボタンを挿入
+  setTimeout(injectUndoBtn, 100);
 })();
+  }, { passive: true });
+    cardEl.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 60) {
+        if (diff < 0) navigateCard(1);
+        else navigateCard(-1);
+      }
+    }, { passive: true });
+  }
 
+  populatePartOptions();
+  updateStreakUI();
+  refreshQueue();
+});
+    
 </script>
 </body>
 </html>
